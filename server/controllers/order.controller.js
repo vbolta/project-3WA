@@ -1,4 +1,4 @@
-const Frame = require("../models/frame.model");
+const Frame = require("../models/order.model");
 const jwt = require("jsonwebtoken");
 
 module.exports = class FrameController {
@@ -41,7 +41,10 @@ module.exports = class FrameController {
   }
 
   static addOneArticle(req, res) {
-    const { id, name } = jwt.verify(req.headers.accesstoken, "secret");
+    const { id, name } = jwt.verify(
+      req.headers.accesstoken,
+      process.env.JWT_SECRET_TOKEN
+    );
     const title = req.body.title;
     const content = req.body.content;
     const author = {

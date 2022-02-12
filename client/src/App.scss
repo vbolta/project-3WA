@@ -1,0 +1,162 @@
+$body-bg: #fbf8f1;
+
+// Bootstrap and its default variables
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+.App {
+  text-align: center;
+}
+
+.Article-cards {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+/***** CSS Variables *****/
+
+:root {
+  --main-color: #2f86a6;
+  --secondary: #9ad0ec;
+  --logout-button-color: #ffe194;
+}
+
+/***** Basic Attributes *****/
+
+body {
+  color: var(--main-color);
+}
+
+main {
+  margin: 1rem auto;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+a {
+  color: var(--secondary);
+}
+
+article {
+  border: 2px solid var(--main-color);
+  border-radius: 1rem;
+  margin: 1rem auto;
+  padding: 0.5rem;
+}
+
+small {
+  display: block;
+  font-style: italic;
+}
+
+form {
+  border: 2px solid var(--secondary);
+  border-radius: 1rem;
+  margin: 1rem auto;
+  padding: 1rem;
+}
+
+fieldset {
+  margin-bottom: 1rem;
+}
+
+/***** Classes *****/
+
+/* Flexbox */
+.flex {
+  display: flex;
+}
+
+/* Center the content */
+.center {
+  text-align: center;
+}
+
+/* Align the content to the right */
+.align-right {
+  text-align: right;
+}
+
+/* Navigation bar */
+.navbar {
+  background-color: var(--main-color);
+  color: white;
+}
+
+.navbar-nav.right-nav {
+  align-items: center;
+}
+
+.navbar-nav.admin-nav {
+  background-color: var(--secondary);
+}
+
+/* Name of the website */
+.navbar-brand img {
+  height: 50px;
+}
+
+.navbar-brand .brand-name {
+  padding: 0.25rem;
+  display: None;
+}
+
+/* Badges for article tags */
+span.badge {
+  margin-left: 0.25rem;
+}
+
+span.badge a,
+.tags button a {
+  color: white;
+  text-decoration: none;
+}
+
+/* Pagination */
+li.page-item .page-link {
+  color: var(--main-color);
+}
+
+li.page-item.active .page-link {
+  background-color: var(--main-color);
+  border-color: var(--main-color);
+}
+
+/* Page '/tags' */
+.tags .flex {
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.tags button {
+  font-size: 1.5rem;
+  margin: 1rem;
+}
+
+.logout-button {
+  background-color: var(--logout-button-color);
+}
+
+/*----------------- Tablet ----------------*/
+
+@media screen and (min-width: 768px) {
+  form {
+    max-width: 50%;
+  }
+
+  .navbar-brand img {
+    height: 38px;
+  }
+
+  .navbar-brand .brand-name {
+    display: inline-block;
+  }
+}
+
+/*--------------- Desktop ---------------*/
+@media screen and (min-width: 1025px) {
+}

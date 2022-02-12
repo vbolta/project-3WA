@@ -6,7 +6,7 @@ const validateToken = (req, res, next) => {
   if (!accessToken) return res.json({ error: "Pas connecté" });
 
   try {
-    const validToken = jwt.verify(accessToken, "secret");
+    const validToken = jwt.verify(accessToken, process.env.JWT_SECRET_TOKEN);
     if (validToken) {
       return next();
     }

@@ -7,8 +7,6 @@ const articleSchema = Schema({
     id: String,
     name: String,
   },
-  category: String,
-  tags: String,
   dateCreated: { type: Date, default: Date.now },
   dateModified: Date,
   content: { type: String, required: true },

@@ -57,6 +57,12 @@ module.exports = class ArticleController {
     const userByPost = await Post.findById(id).populate("user");
     res.send(userByPost);
   }
+
+  static async deleteArticle(req, res) {
+    const id = req.body.id;
+    await Article.deleteOne({ _id: id });
+    res.send("Delete");
+  }
 };
 
 // module.exports = {

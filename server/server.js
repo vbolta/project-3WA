@@ -1,5 +1,4 @@
 require("dotenv").config();
-
 const express = require("express");
 const mongoose = require("mongoose");
 // const jwt = require("jsonwebtoken");
@@ -10,45 +9,23 @@ const articles = require("./routes/article.router");
 // const multer = require("multer");
 const app = express();
 
+// Variables d'environnement
+const hostname = process.env.SERVER_HOST;
+const PORT = process.env.SERVER_PORT;
+
 app.use(express.json());
 
 mongoose.connect("mongodb://localhost:27017/test");
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: [`${process.env.CLIENT_URL}`],
     methods: "GET,POST,DELETE",
     credentials: true,
   })
 );
 
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
-
-/** A ajouter
- *
- * Frame : Photo / dimension :["smallSize", "mediumSize", "tallSize"], price :{smallSize: 5, mediumSize: 8 , tallSize : 12}
- *
- * Order : madeAt: Data, totalPrice: Number, userAdress : String, paiement: boolean default false
- *
- *
- * */
-
-// app.use(
-//   session({
-//     key: "userId",
-//     secret: "HELLO-CODE",
-//     resave: false,
-//     saveUninitialized: false,
-//   })
-// );
-
-const hostname = "localhost";
-const PORT = 3001;
-
-// const qcmSchema = new mongoose.Schema({
-//   userId: Number,
-//   answer: String,
-// });
 
 app.use("/users", users);
 app.use("/articles", articles);
