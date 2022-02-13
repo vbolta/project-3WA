@@ -56,13 +56,15 @@ module.exports = class UserController {
         }
       });
       const accessToken = jwt.sign(
-        { name: user.name, id: user._id },
-        "secret",
+        { name: user.name, mail: user.mail, id: user._id },
+        process.env.JWT_SECRET_TOKEN,
         {
           expiresIn: "1h",
         }
       );
-      res.json(accessToken);
+      // return res.status(200).json({ message: 'Connexion acceptée', accessoken });
+
+      res.status(200).json(accessToken);
     }
   }
 
@@ -77,5 +79,18 @@ module.exports = class UserController {
     console.log(user.articles);
 
     res.send(user.articles);
+  }
+
+  static async reviewsByUser(req, res) {
+    const { id } = req.params;
+
+    console.log(id);
+    const user = await User.findById(id).populate("reviews");
+
+    console.log(user);
+
+    console.log(user.reviews);
+
+    res.send(user.reviews);
   }
 };

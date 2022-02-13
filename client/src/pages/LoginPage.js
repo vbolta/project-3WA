@@ -26,6 +26,7 @@ const LoginPage = () => {
       }
       localStorage.setItem("accessToken", response.data);
       navigate("/");
+      window.location.reload(false);
     });
   };
 

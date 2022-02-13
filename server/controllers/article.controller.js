@@ -25,12 +25,16 @@ module.exports = class ArticleController {
   }
 
   static addOneArticle(req, res) {
-    const { id, name } = jwt.verify(req.headers.accesstoken, "secret");
+    const { id, name, mail } = jwt.verify(
+      req.headers.accesstoken,
+      process.env.JWT_secret_Token
+    );
     const title = req.body.title;
     const content = req.body.content;
     const author = {
       id: id,
       name: name,
+      mail: mail,
     };
 
     const url = req.protocol + "://" + req.get("host");

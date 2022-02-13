@@ -5,23 +5,25 @@ export const Navbar = () => {
   // console.log(isAuthenticated);
   // const test = handleLogout();
 
-  // console.log(test);
   const [isAuthenticated, setAuthenticated] = useState(false);
 
-  // console.log(localStorage.getItem("token"));
+  // // console.log(localStorage.getItem("token"));
 
   useEffect(() => {
-    if (localStorage.getItem("accessToken")) {
-      setAuthenticated(true);
-    }
-    // console.log(isAuthenticated);
-  }, [isAuthenticated]);
+    handleLogin();
+  }, []);
 
-  // console.log(isAuthenticated);
+  const handleLogin = () => {
+    // setAuthenticated(localStorage.getItem("accessToken"));
+    // if (isAuthenticated === false) {
+    setAuthenticated(true);
+    // }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     setAuthenticated(false);
+    // console.log("test");
   };
 
   return (

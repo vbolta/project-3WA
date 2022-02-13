@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const users = require("./routes/user.router");
 const articles = require("./routes/article.router");
+const reviews = require("./routes/review.router");
+
 // const session = require("express-session");
 // const multer = require("multer");
 const app = express();
@@ -29,6 +31,8 @@ const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
 app.use("/users", users);
 app.use("/articles", articles);
+app.use("/reviews", reviews);
+
 app.use(express.static(__dirname));
 app.post("/checkout", async (req, res) => {
   console.log("test");

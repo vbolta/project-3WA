@@ -1,21 +1,53 @@
 const Review = require("../models/review.model");
+const jwt = require("jsonwebtoken");
 
 module.exports = class ReviewController {
-  static getAllUsers(req, res) {
-    User.find().then(function (users) {
-      res.send(users);
+  static getAllReviews(req, res) {
+    Review.find().then(function (reviews) {
+      res.status(200).send(reviews);
     });
   }
 
   static async addReview(req, res) {
-    // let data = {
+    // console.log(req);
+    // const data = {
     //   product_id: id,
-    //   content: req.body.rating,
+    //   // content: req.body.rating,
     // };
 
-    const review = await Review.create(data);
-    res.status(200).send(review);
+    const author = {
+      id: req.body.author.id,
+      name: req.body.author.name,
+      mail: req.body.author.mail,
+    };
+    const content = req.body.content;
+
+    Review.create(
+      {
+        content: content,
+        author: author,
+      },
+      function (err, result) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(result);
+          res.status(200).send("Commentaire ajouté");
+          // res.send("Commentaire ajoutée");
+        }
+      }
+    );
+
+    // const review = await Review.create(data);
+    // res.status(200).send(review);
   }
+
+  // static async userByReview(req, res) {
+  //   console.log(req);
+  //   const { id } = req.params;
+  //   const userByReview = await Review.findById(id).populate("user");
+  //   res.send(userByReview);
+  // }
 
   //   static getActiveUser(req, res) {
   //     const id = req.params.id;
