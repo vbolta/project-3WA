@@ -62,6 +62,23 @@ module.exports = class ArticleController {
     res.send(userByPost);
   }
 
+  static async updateArticle(req, res) {
+    const id = req.body.id;
+    console.log(req.body);
+    const newTitle = req.body.title;
+    const newContent = req.body.content;
+    const url = req.protocol + "://" + req.get("host");
+
+    console.log(url);
+
+    await Article.findByIdAndUpdate(id, {
+      title: newTitle,
+      content: newContent,
+      picture: url + "/images/" + req.file.filename,
+    });
+    res.send("Update");
+  }
+
   static async deleteArticle(req, res) {
     const id = req.body.id;
     await Article.deleteOne({ _id: id });

@@ -5,6 +5,7 @@ const {
   getOneArticle,
   userByPost,
   deleteArticle,
+  updateArticle,
 } = require("../controllers/article.controller");
 const multer = require("multer");
 const { validateToken } = require("../middlewares/auth.middleware");
@@ -31,6 +32,7 @@ router.post(
   upload.single("file"),
   addOneArticle
 );
+router.post("/:id/update", upload.single("file"), updateArticle);
 router.post("/:id/delete", deleteArticle);
 router.post("/post/populate/:id", userByPost);
 

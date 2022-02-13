@@ -3,6 +3,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/Homepage";
 import CreateArticle from "./pages/CreateArticle";
+import UpdateArticle from "./pages/UpdateArticle";
 import { useEffect, useState } from "react";
 import { Navbar } from "./components/Navbar";
 import Article from "./pages/Article";
@@ -72,6 +73,7 @@ function App() {
             path="/article/:id"
             element={<Article cart={cart} setCart={setCart} />}
           />
+          <Route path="/article/update/:id" element={<UpdateArticle />} />
           <Route path="/" element={<HomePage />} />
         </Routes>
       </div>

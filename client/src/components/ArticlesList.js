@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Axios from "axios";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import SearchBar from "./Searchbar";
 
 const ArticlesList = () => {
   const [articles, setArticles] = useState([]);
@@ -14,6 +15,8 @@ const ArticlesList = () => {
 
   return (
     <>
+      <SearchBar articles={[articles]} />
+
       {articles.length > 0 &&
         articles.map((article) => (
           <div key={article._id}>

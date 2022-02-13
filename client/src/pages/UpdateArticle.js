@@ -1,27 +1,48 @@
-import { Link } from "react-router-dom";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Form from "../components/Form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Axios from "axios";
-import Button from "react-bootstrap/esm/Button";
+import { useMatch, useLocation } from "react-router-dom";
 
-const CreateArticle = () => {
-  const [articleData, setArticleData] = useState({
-    title: "",
+const UpdateArticle = () => {
+  const id = useMatch("article/update/:id").params.id;
+
+  const location = useLocation();
+
+  console.log(location.state);
+
+  const [newArticleData, setNewArticleData] = useState({
+    id: "",
+    title: location.state.title,
     picture: "",
-    content: "",
+    content: location.state.content,
   });
+
+  //   const [test, setTest] = useState([]);
+
+  //   useEffect(() => {
+  //     Axios.get("http://localhost:3001/articles/" + id).then((article) => {
+  //       //   setTest(article.data);
+  //       console.log(article);
+  //     });
+
+  // Axios.get("http://localhost:3001/reviews/find/" + id).then(
+  //   console.log("here2")
+  // );
+  //   }, [id]);
 
   const handleSubmit = () => {
     const data = new FormData();
-    data.append("title", articleData.title);
-    data.append("file", articleData.picture);
-    data.append("content", articleData.content);
+    data.append("id", id);
+    data.append("title", newArticleData.title);
+    data.append("file", newArticleData.picture);
+    data.append("content", newArticleData.content);
 
-    Axios.post("http://localhost:3001/articles/createArticle", data, {
-      headers: { accessToken: localStorage.getItem("accessToken") },
-    })
+    Axios.post(
+      "http://localhost:3001/articles/6207f4ff39324f5b132b6656/update",
+      data
+    )
       .then((response) => {
         console.log(response);
         if (response.data.error) {
@@ -34,7 +55,7 @@ const CreateArticle = () => {
 
   return (
     <>
-      <h1>Créer votre article</h1>
+      <h1>Modifier votre article</h1>
       <Form onSubmit={handleSubmit}>
         <InputGroup className="mb-3">
           <InputGroup.Text id="basic-addon1">
@@ -46,8 +67,9 @@ const CreateArticle = () => {
             placeholder="Titre"
             aria-label="title"
             aria-describedby="basic-addon1"
+            value={newArticleData.title}
             onChange={(e) =>
-              setArticleData({ ...articleData, title: e.target.value })
+              setNewArticleData({ ...newArticleData, title: e.target.value })
             }
           />
         </InputGroup>
@@ -58,8 +80,8 @@ const CreateArticle = () => {
             type="file"
             name="picture"
             onChange={(e) =>
-              setArticleData({
-                ...articleData,
+              setNewArticleData({
+                ...newArticleData,
                 picture: e.target.files[0],
               })
             }
@@ -73,15 +95,16 @@ const CreateArticle = () => {
             aria-label="Contenu de l'article"
             type="text"
             name="content"
+            value={newArticleData.content}
             onChange={(e) =>
-              setArticleData({ ...articleData, content: e.target.value })
+              setNewArticleData({ ...newArticleData, content: e.target.value })
             }
           />
         </InputGroup>
-        <button className="btn btn-succes">Créer un nouvel article</button>
+        <button className="btn btn-succes">Modifier l'article</button>
       </Form>
     </>
   );
 };
 
-export default CreateArticle;
+export default UpdateArticle;

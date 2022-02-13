@@ -8,8 +8,28 @@ module.exports = class ReviewController {
     });
   }
 
+  static getOneArticle(req, res) {
+    const id = req.params.id;
+    Article.findById(id).then(function (article) {
+      res.send(article);
+    });
+  }
+
+  static getReviewsByPost(req, res) {
+    console.log(req.params.id);
+
+    // const id = req.params.id;
+    // Review.findById(id).then(function (article) {
+    //   res.send(article);
+    // });
+    // const product_id = req.body.product_id;
+
+    // Review.find().then(function (reviews) {
+    //   res.status(200).send(reviews);
+    // });
+  }
+
   static async addReview(req, res) {
-    // console.log(req);
     // const data = {
     //   product_id: id,
     //   // content: req.body.rating,
@@ -21,11 +41,13 @@ module.exports = class ReviewController {
       mail: req.body.author.mail,
     };
     const content = req.body.content;
+    const product_id = req.body.product_id;
 
     Review.create(
       {
         content: content,
         author: author,
+        product_id: product_id,
       },
       function (err, result) {
         if (err) {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
-import { useMatch, useNavigate } from "react-router-dom";
+import { Link, useMatch, useNavigate } from "react-router-dom";
 import Image from "react-bootstrap/esm/Image";
 import Button from "react-bootstrap/esm/Button";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -16,6 +16,10 @@ const Article = ({ cart, setCart }) => {
     Axios.get("http://localhost:3001/articles/" + id).then((article) => {
       setArticleData(article.data);
     });
+
+    // Axios.get("http://localhost:3001/reviews/find/" + id).then(
+    //   console.log("here2")
+    // );
   }, [id]);
 
   const addToCart = (product) => {
@@ -86,11 +90,24 @@ const Article = ({ cart, setCart }) => {
       </Button> */}
       {console.log("test")}
       {articleData.author && (
-        <Button variant="warning" onClick={handleDelete}>
-          Supprimer l'article
-        </Button>
+        <>
+          <Button variant="warning" onClick={handleDelete}>
+            Supprimer l'article
+          </Button>
+          <Button variant="warning">
+            {" "}
+            <Link
+              className="nav-link"
+              to={"/article/update/" + id}
+              state={articleData}
+            >
+              {" "}
+              Modifier l'article
+            </Link>
+          </Button>
+        </>
       )}
-      <ReviewForm />
+      <ReviewForm productId={id} />
     </>
   );
 };
