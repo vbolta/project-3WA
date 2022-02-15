@@ -6,11 +6,15 @@ import Button from "react-bootstrap/esm/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import ReviewForm from "../components/ReviewForm";
+import { getCurrentUser } from "../services/Authentification";
 
-const Article = ({ cart, setCart }) => {
+const Article = ({ cart, setCart, user }) => {
   const navigate = useNavigate();
   const [articleData, setArticleData] = useState([]);
   const id = useMatch("article/:id").params.id;
+
+  console.log(user);
+  console.log(articleData);
 
   useEffect(() => {
     Axios.get("http://localhost:3001/articles/" + id).then((article) => {
@@ -24,7 +28,7 @@ const Article = ({ cart, setCart }) => {
 
   const addToCart = (product) => {
     setCart([...cart, product]);
-    console.log(cart);
+    // console.log(cart);
   };
 
   const handleClick = () => {
@@ -44,7 +48,7 @@ const Article = ({ cart, setCart }) => {
   };
 
   const handleDelete = () => {
-    console.log(id);
+    // console.log(id);
     Axios.post(`http://localhost:3001/articles/${id}/delete`, {
       id: id,
     }).then((response) => {
@@ -55,6 +59,8 @@ const Article = ({ cart, setCart }) => {
       navigate("/");
     });
   };
+
+  // console.log(articleData);
 
   return (
     <>
@@ -86,22 +92,20 @@ const Article = ({ cart, setCart }) => {
         <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
       </DropdownButton>
       {/* <Button variant="primary" onClick={addToCart}>
-        Checkout
-      </Button> */}
-      {console.log("test")}
-      {articleData.author && (
+      Checkout
+    </Button> */}
+
+      {articleData.author && user.name === articleData.author.name && (
         <>
           <Button variant="warning" onClick={handleDelete}>
             Supprimer l'article
           </Button>
           <Button variant="warning">
-            {" "}
             <Link
               className="nav-link"
               to={"/article/update/" + id}
               state={articleData}
             >
-              {" "}
               Modifier l'article
             </Link>
           </Button>

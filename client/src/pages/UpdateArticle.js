@@ -10,7 +10,7 @@ const UpdateArticle = () => {
 
   const location = useLocation();
 
-  console.log(location.state);
+  // console.log(location.state);
 
   const [newArticleData, setNewArticleData] = useState({
     id: "",

@@ -16,21 +16,22 @@ const ArticlesList = () => {
   return (
     <>
       <SearchBar articles={[articles]} />
-
-      {articles.length > 0 &&
-        articles.map((article) => (
-          <div key={article._id}>
-            <Card style={{ width: "18rem" }}>
-              <Card.Img variant="top" src={article.picture} />
-              <Card.Body>
-                <Card.Title>{article.title}</Card.Title>
-                <Link to={"/article/" + article._id}>
-                  <Button variant="primary">Visiter l'article</Button>
-                </Link>
-              </Card.Body>
-            </Card>
-          </div>
-        ))}
+      <div className="Article-cards">
+        {articles.length > 0 &&
+          articles.map((article) => (
+            <div key={article._id}>
+              <Card style={{ width: "18rem" }}>
+                <Card.Img variant="top" src={article.picture} />
+                <Card.Body>
+                  <Card.Title>{article.title}</Card.Title>
+                  <Link to={"/article/" + article._id}>
+                    <Button className="custom-btn">Visiter l'article</Button>
+                  </Link>
+                </Card.Body>
+              </Card>
+            </div>
+          ))}
+      </div>
     </>
   );
 };

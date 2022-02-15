@@ -15,9 +15,10 @@ const ReviewForm = ({ productId }) => {
   };
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/reviews/find/" + productId).then(
-      console.log("here2")
-    );
+    Axios.get("http://localhost:3001/reviews/find/" + productId)
+      .then
+      // console.log("here2")
+      ();
   }, [productId]);
 
   // useEffect(() => {
@@ -28,7 +29,7 @@ const ReviewForm = ({ productId }) => {
 
   const handleSubmit = () => {
     Axios.get("http://localhost:3001/reviews/find").then((response) => {
-      console.log(response);
+      // console.log(response);
       setReviewData(response.data);
     });
     // Axios.post("http://localhost:3001/reviews/create", {

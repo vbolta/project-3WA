@@ -1,25 +1,20 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import SearchBar from "./Searchbar";
+import logo from "../assets/bird.png";
 
-export const Navbar = () => {
+export const Navbar = ({ user }) => {
   // console.log(isAuthenticated);
   // const test = handleLogout();
+
+  // console.log(user);
 
   const [isAuthenticated, setAuthenticated] = useState(false);
 
   // // console.log(localStorage.getItem("token"));
 
   useEffect(() => {
-    handleLogin();
-  }, []);
-
-  const handleLogin = () => {
-    // setAuthenticated(localStorage.getItem("accessToken"));
-    // if (isAuthenticated === false) {
-    setAuthenticated(true);
-    // }
-  };
+    if (user) setAuthenticated(() => !isAuthenticated);
+  }, [user]);
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
@@ -28,11 +23,15 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark">
+    <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
-          Hello-Code
+          TropiPhoto
+          <img className="logo" src={logo} alt="Logo de l'application" />
         </Link>
+        {/* <a href="https://www.flaticon.com/free-icons/macaw" title="macaw icons">
+          Macaw icons created by Smashicons - Flaticon
+        </a> */}
         <button
           className="navbar-toggler"
           type="button"

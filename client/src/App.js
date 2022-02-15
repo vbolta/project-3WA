@@ -9,6 +9,7 @@ import { Navbar } from "./components/Navbar";
 import Article from "./pages/Article";
 import jwt_decode from "jwt-decode";
 import { getCurrentUser } from "./services/Authentification";
+import Footer from "./components/Footer";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -26,41 +27,19 @@ function App() {
     if (!user) {
       const currentUser = getCurrentUser();
       setUser(currentUser);
-      console.log(currentUser);
+      // console.log(currentUser);
     }
   }, [user]);
-
-  console.log(user);
-
-  // useEffect(() => {
-  //   if (!user) {
-  //     const currentUser = getCurrentUser();
-  //     setUser(currentUser);
-  //     console.log(user);
-  //   }
-  // }, []);
 
   const [cart, setCart] = useState([]);
 
   localStorage.setItem("cart", cart);
 
-  // useEffect(() => {
-  //   if (localStorage.getItem("accessToken")) {
-  //     const token = localStorage.getItem("accessToken");
-  //     const decoded = jwt_decode(token);
-  //     console.log(decoded);
-
-  //     setAuthenticated(true);
-  //   } else {
-  //     setAuthenticated(false);
-  //   }
-  // }, []);
-
   return (
     <BrowserRouter>
-      <Navbar />
+      <Navbar user={user} />
       {/* {user && <Navbar />} */}
-      <div className="container mt-3">
+      <div className="container mt-3 test">
         <Routes>
           <Route
             path="/account/login"
@@ -71,12 +50,13 @@ function App() {
           <Route path="/new/article" element={<CreateArticle />} />
           <Route
             path="/article/:id"
-            element={<Article cart={cart} setCart={setCart} />}
+            element={<Article cart={cart} setCart={setCart} user={user} />}
           />
           <Route path="/article/update/:id" element={<UpdateArticle />} />
           <Route path="/" element={<HomePage />} />
         </Routes>
       </div>
+      <Footer />
     </BrowserRouter>
   );
 }

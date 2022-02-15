@@ -23,7 +23,7 @@ const CreateArticle = () => {
       headers: { accessToken: localStorage.getItem("accessToken") },
     })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         if (response.data.error) {
           alert("ERROR");
           return;
