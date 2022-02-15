@@ -6,7 +6,7 @@ import Button from "react-bootstrap/esm/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import ReviewForm from "../components/ReviewForm";
-import { getCurrentUser } from "../services/Authentification";
+import Popup from "reactjs-popup";
 
 const Article = ({ cart, setCart, user }) => {
   const navigate = useNavigate();
@@ -64,53 +64,87 @@ const Article = ({ cart, setCart, user }) => {
 
   return (
     <>
-      <h1>{articleData.title}</h1>
-      <section>
-        <h2>Contenu de l'article</h2>
-        <p>{articleData.content}</p>
-        <h2>Auteur</h2>
-        {articleData.author && <p>{articleData.author.name}</p>}
-        <p>Category</p>
-        {articleData.picture && (
-          <Image
-            src={articleData.picture}
-            alt={articleData.title}
-            thumbnail={true}
-          />
-        )}
-        <p>{articleData.dateCreated}</p>
-      </section>
-      <DropdownButton id="dropdown-basic-button" title="Dropdown button">
-        <Dropdown.Item
-          href="#/action-1"
-          name="test"
-          onClick={() => addToCart(articleData.title)}
-        >
-          Action
-        </Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-      </DropdownButton>
-      {/* <Button variant="primary" onClick={addToCart}>
+      <div className="article-display">
+        <section>
+          <h1>{articleData.title}</h1>
+          <h2>Contenu de l'article</h2>
+          <p>{articleData.content}</p>
+          <h2>Auteur</h2>
+          {articleData.author && <p>{articleData.author.name}</p>}
+          <p>Category</p>
+          {articleData.picture && (
+            <Image
+              src={articleData.picture}
+              alt={articleData.title}
+              thumbnail={true}
+            />
+          )}
+          <p>{articleData.dateCreated}</p>
+          <DropdownButton id="dropdown-basic-button" title="Dropdown button">
+            <Dropdown.Item
+              href="#/action-1"
+              name="test"
+              onClick={() => addToCart(articleData.title)}
+            >
+              Action
+            </Dropdown.Item>
+            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+          </DropdownButton>
+        </section>
+
+        {/* <Button variant="primary" onClick={addToCart}>
       Checkout
     </Button> */}
 
-      {articleData.author && user.name === articleData.author.name && (
-        <>
-          <Button variant="warning" onClick={handleDelete}>
-            Supprimer l'article
-          </Button>
-          <Button variant="warning">
-            <Link
-              className="nav-link"
-              to={"/article/update/" + id}
-              state={articleData}
+        {articleData.author && user.id === articleData.author.id && (
+          <div className="article-user-btn">
+            <Popup
+              trigger={
+                <Button variant="danger">Supprimer l'article</Button>
+                // <button className="button"> Supprimer l'article </button>
+              }
+              modal
+              nested
             >
-              Modifier l'article
-            </Link>
-          </Button>
-        </>
-      )}
+              {(close) => (
+                <div className="custom-modal">
+                  <button className="close" onClick={close}>
+                    &times;
+                  </button>
+                  <div className="header">
+                    Êtes-vous certain de vouloir supprimer cet article?
+                  </div>
+                  <div className="actions">
+                    <Button variant="warning" onClick={handleDelete}>
+                      OUI
+                    </Button>
+
+                    <Button
+                      variant="secondary"
+                      onClick={() => {
+                        console.log("modal closed ");
+                        close();
+                      }}
+                    >
+                      ANNULER
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </Popup>
+            <Button variant="warning">
+              <Link
+                className="nav-link"
+                to={"/article/update/" + id}
+                state={articleData}
+              >
+                Modifier l'article
+              </Link>
+            </Button>
+          </div>
+        )}
+      </div>
       <ReviewForm productId={id} />
     </>
   );

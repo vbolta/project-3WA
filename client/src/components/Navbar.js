@@ -8,12 +8,12 @@ export const Navbar = ({ user }) => {
 
   // console.log(user);
 
-  const [isAuthenticated, setAuthenticated] = useState(false);
+  const [isAuthenticated, setAuthenticated] = useState(null);
 
   // // console.log(localStorage.getItem("token"));
 
   useEffect(() => {
-    if (user) setAuthenticated(() => !isAuthenticated);
+    user && setAuthenticated(() => !isAuthenticated);
   }, [user]);
 
   const handleLogout = () => {
@@ -48,19 +48,17 @@ export const Navbar = ({ user }) => {
           <ul className="navbar-nav me-auto">
             {isAuthenticated && (
               <>
-                {" "}
                 <li className="nav-item">
                   <Link className="nav-link" to="/new/article">
                     Créer un article
                   </Link>
-                </li>{" "}
+                </li>
               </>
             )}
           </ul>
           <ul className="navbar-nav">
             {!isAuthenticated && (
               <>
-                {" "}
                 <li className="nav-item">
                   <Link className="nav-link" to="/account/register">
                     Inscription
@@ -70,7 +68,7 @@ export const Navbar = ({ user }) => {
                   <Link className="btn btn-success" to="/account/login">
                     CONNEXION
                   </Link>
-                </li>{" "}
+                </li>
               </>
             )}
 
@@ -85,7 +83,6 @@ export const Navbar = ({ user }) => {
 
             {isAuthenticated && (
               <>
-                {" "}
                 <li className="nav-item">
                   <button className="logout-button" onClick={handleLogout}>
                     DECONNEXION

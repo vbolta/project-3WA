@@ -11,13 +11,17 @@ const CreateArticle = () => {
     title: "",
     picture: "",
     content: "",
+    createdAt: "",
   });
+
+  const date = new Date();
 
   const handleSubmit = () => {
     const data = new FormData();
     data.append("title", articleData.title);
     data.append("file", articleData.picture);
     data.append("content", articleData.content);
+    data.append("createdAt", date.toISOString());
 
     Axios.post("http://localhost:3001/articles/createArticle", data, {
       headers: { accessToken: localStorage.getItem("accessToken") },

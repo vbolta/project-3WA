@@ -36,6 +36,7 @@ module.exports = class ArticleController {
       name: name,
       mail: mail,
     };
+    const date = new Date();
 
     const url = req.protocol + "://" + req.get("host");
     Article.create(
@@ -44,6 +45,7 @@ module.exports = class ArticleController {
         picture: url + "/images/" + req.file.filename,
         author: author,
         content: content,
+        data: date.toISOString(),
       },
       function (err, result) {
         if (err) {

@@ -15,6 +15,63 @@ $body-bg: #fbf8f1;
   flex-wrap: wrap;
 }
 
+.article-display {
+  justify-content: space-between;
+  display: flex;
+}
+
+.article-user-btn {
+  display: flex;
+  flex-direction: column;
+}
+
+.article-user-btn button {
+  margin: 10px;
+  padding: 5px;
+}
+
+.custom-modal {
+  font-size: 12px;
+  background-color: var(--main-color);
+  border-radius: 18px;
+  position: relative;
+  margin: auto;
+  max-width: 600px;
+  width: 90%;
+  font-weight: bold;
+  // pointer-events: auto;
+}
+.custom-modal > .header {
+  width: 100%;
+  border-bottom: 1px solid gray;
+  font-size: 18px;
+  text-align: center;
+  padding: 5px;
+}
+.custom-modal > .content {
+  width: 100%;
+  padding: 10px 5px;
+}
+.custom-modal > .actions {
+  width: 100%;
+  padding: 10px 5px;
+  margin: auto;
+  text-align: center;
+}
+.custom-modal > .close {
+  cursor: pointer;
+  position: absolute;
+  display: block;
+  padding: 2px 5px;
+  line-height: 20px;
+  right: -10px;
+  top: -10px;
+  font-size: 24px;
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid var(--secondary);
+}
+
 /***** CSS Variables *****/
 
 :root {
