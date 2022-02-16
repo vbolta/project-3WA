@@ -7,6 +7,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import ReviewForm from "../components/ReviewForm";
 import Popup from "reactjs-popup";
+import toast from "react-hot-toast";
 
 const Article = ({ cart, setCart, user }) => {
   const navigate = useNavigate();
@@ -48,19 +49,17 @@ const Article = ({ cart, setCart, user }) => {
   };
 
   const handleDelete = () => {
-    // console.log(id);
     Axios.post(`http://localhost:3001/articles/${id}/delete`, {
       id: id,
     }).then((response) => {
+      console.log(response);
       if (response.data.error) {
-        alert(response.data.error);
+        toast.error(response.data.error);
         return;
       }
       navigate("/");
     });
   };
-
-  // console.log(articleData);
 
   return (
     <>
@@ -84,7 +83,10 @@ const Article = ({ cart, setCart, user }) => {
             <Dropdown.Item
               href="#/action-1"
               name="test"
-              onClick={() => addToCart(articleData.title)}
+              onClick={() => {
+                addToCart(articleData.title);
+                toast.success("Article ajouté dans votre panier");
+              }}
             >
               Action
             </Dropdown.Item>
@@ -116,14 +118,19 @@ const Article = ({ cart, setCart, user }) => {
                     Êtes-vous certain de vouloir supprimer cet article?
                   </div>
                   <div className="actions">
-                    <Button variant="warning" onClick={handleDelete}>
+                    <Button
+                      variant="warning"
+                      onClick={() => {
+                        handleDelete();
+                        toast.success("Article supprimée");
+                      }}
+                    >
                       OUI
                     </Button>
 
                     <Button
                       variant="secondary"
                       onClick={() => {
-                        console.log("modal closed ");
                         close();
                       }}
                     >

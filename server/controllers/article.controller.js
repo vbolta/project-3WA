@@ -36,13 +36,20 @@ module.exports = class ArticleController {
       name: name,
       mail: mail,
     };
+    const photo = req.file
+      ? req.file.filename
+      : res.status(400).json({ error: "Veuillez ajouter une image" });
+
+    console.log(req.file);
+    console.log(photo);
+
     const date = new Date();
 
     const url = req.protocol + "://" + req.get("host");
     Article.create(
       {
         title: title,
-        picture: url + "/images/" + req.file.filename,
+        picture: url + "/images/" + photo,
         author: author,
         content: content,
         data: date.toISOString(),
@@ -51,7 +58,7 @@ module.exports = class ArticleController {
         if (err) {
           console.log(err);
         } else {
-          console.log(result);
+          // console.log(result);
           res.send("Article ajoutée");
         }
       }
@@ -66,7 +73,6 @@ module.exports = class ArticleController {
 
   static async updateArticle(req, res) {
     const id = req.body.id;
-    console.log(req.body);
     const newTitle = req.body.title;
     const newContent = req.body.content;
     const url = req.protocol + "://" + req.get("host");
@@ -87,47 +93,3 @@ module.exports = class ArticleController {
     res.send("Delete");
   }
 };
-
-// module.exports = {
-//   getAllArticles: (req, res) => {
-//     Article.find().then(function (articles) {
-//       res.send(articles);
-//     });
-//   },
-
-//   getOneArticle: (req, res) => {
-//     // console.log(req);
-//     const id = req.params.id;
-//     Article.findById(id).then(function (article) {
-//       res.send(article);
-//     });
-//   },
-
-//   addOneArticle: (req, res) => {
-//     const { id, name } = jwt.verify(req.headers.accesstoken, "secret");
-//     const title = req.body.title;
-//     const content = req.body.content;
-//     const author = {
-//       id: id,
-//       name: name,
-//     };
-
-//     const url = req.protocol + "://" + req.get("host");
-//     Article.create(
-//       {
-//         title: title,
-//         picture: url + "/images/" + req.file.filename,
-//         author: author,
-//         content: content,
-//       },
-//       function (err, result) {
-//         if (err) {
-//           console.log(err);
-//         } else {
-//           console.log(result);
-//           res.send("Article ajoutée");
-//         }
-//       }
-//     );
-//   },
-// };

@@ -1,7 +1,6 @@
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const saltRounds = 10;
 
 module.exports = class UserController {
   static getAllUsers(req, res) {
@@ -22,7 +21,7 @@ module.exports = class UserController {
     const mail = req.body.mail;
     const password = req.body.password;
 
-    bcrypt.hash(password, saltRounds, (err, hash) => {
+    bcrypt.hash(password, 10, (err, hash) => {
       if (err) {
         console.log(err);
       }
@@ -48,23 +47,21 @@ module.exports = class UserController {
     if (!user) {
       res.json({ error: "Pas d'utilisateur avec ce mail" });
     } else {
-      bcrypt.compare(password, user.password, (error, response) => {
+      bcrypt.compare(password, user.password, function (error, response) {
+        console.log(password, user.password, error, response);
         if (response) {
-          console.log(response);
+          const accessToken = jwt.sign(
+            { name: user.name, mail: user.mail, id: user._id },
+            process.env.JWT_SECRET_TOKEN,
+            {
+              expiresIn: "3h",
+            }
+          );
+          res.status(200).json(accessToken);
         } else {
-          console.log(error);
+          res.json({ error: "Mauvais mot de passe" });
         }
       });
-      const accessToken = jwt.sign(
-        { name: user.name, mail: user.mail, id: user._id },
-        process.env.JWT_SECRET_TOKEN,
-        {
-          expiresIn: "1h",
-        }
-      );
-      // return res.status(200).json({ message: 'Connexion acceptée', accessoken });
-
-      res.status(200).json(accessToken);
     }
   }
 

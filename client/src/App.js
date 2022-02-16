@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/Homepage";
@@ -9,6 +9,8 @@ import { Navbar } from "./components/Navbar";
 import Article from "./pages/Article";
 import jwt_decode from "jwt-decode";
 import { getCurrentUser } from "./services/Authentification";
+import toast, { Toaster } from "react-hot-toast";
+
 import Footer from "./components/Footer";
 
 function App() {
@@ -37,6 +39,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Toaster />
       <Navbar user={user} />
       {/* {user && <Navbar />} */}
       <div className="container mt-3 test">
@@ -53,6 +56,7 @@ function App() {
             element={<Article cart={cart} setCart={setCart} user={user} />}
           />
           <Route path="/article/update/:id" element={<UpdateArticle />} />
+          <Route path="*" element={<Navigate to="/" />} />
           <Route path="/" element={<HomePage />} />
         </Routes>
       </div>

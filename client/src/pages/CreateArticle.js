@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Form from "../components/Form";
 import { useState } from "react";
 import Axios from "axios";
 import Button from "react-bootstrap/esm/Button";
+import toast from "react-hot-toast";
 
 const CreateArticle = () => {
   const [articleData, setArticleData] = useState({
@@ -13,6 +14,8 @@ const CreateArticle = () => {
     content: "",
     createdAt: "",
   });
+
+  const navigate = useNavigate();
 
   const date = new Date();
 
@@ -27,19 +30,30 @@ const CreateArticle = () => {
       headers: { accessToken: localStorage.getItem("accessToken") },
     })
       .then((response) => {
-        // console.log(response);
+        console.log(response);
+
         if (response.data.error) {
-          alert("ERROR");
+          toast.error(response.data.error);
           return;
         }
+
+        navigate("/");
+        toast.success("Article créée");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        toast.error("Veuillez réessayer en remplissant tous les champs");
+      });
   };
 
   return (
     <>
       <h1>Créer votre article</h1>
-      <Form onSubmit={handleSubmit}>
+      <Form
+        onSubmit={() => {
+          handleSubmit();
+        }}
+      >
         <InputGroup className="mb-3">
           <InputGroup.Text id="basic-addon1">
             Titre de l'article

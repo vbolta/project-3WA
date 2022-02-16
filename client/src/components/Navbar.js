@@ -1,19 +1,21 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import logo from "../assets/bird.png";
+import toast from "react-hot-toast";
 
 export const Navbar = ({ user }) => {
   // console.log(isAuthenticated);
   // const test = handleLogout();
 
-  // console.log(user);
+  console.log(user);
 
-  const [isAuthenticated, setAuthenticated] = useState(null);
+  const [isAuthenticated, setAuthenticated] = useState(false);
 
   // // console.log(localStorage.getItem("token"));
 
   useEffect(() => {
-    user && setAuthenticated(() => !isAuthenticated);
+    if (!user) return;
+    setAuthenticated(!isAuthenticated);
   }, [user]);
 
   const handleLogout = () => {
@@ -84,7 +86,13 @@ export const Navbar = ({ user }) => {
             {isAuthenticated && (
               <>
                 <li className="nav-item">
-                  <button className="logout-button" onClick={handleLogout}>
+                  <button
+                    className="logout-button"
+                    onClick={() => {
+                      handleLogout();
+                      toast.success("Déconnexion réussie");
+                    }}
+                  >
                     DECONNEXION
                   </button>
                 </li>

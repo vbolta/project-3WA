@@ -4,10 +4,14 @@ import Form from "../components/Form";
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
+import { getCurrentUser } from "../services/Authentification";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [data, setData] = useState({ email: "", password: "" });
+
+  let user;
 
   const handleChange = (name, value) => {
     setData({ ...data, [name]: value });
@@ -16,17 +20,22 @@ const LoginPage = () => {
   Axios.defaults.withCredentials = true;
 
   const handleSubmit = async () => {
-    Axios.post("http://localhost:3001/users/login", {
+    await Axios.post("http://localhost:3001/users/login", {
       mail: data.email,
       password: data.password,
     }).then((response) => {
       if (response.data.error) {
-        alert(response.data.error);
+        toast.error(response.data.error);
         return;
       }
       localStorage.setItem("accessToken", response.data);
+      console.log(response);
+      // user = getCurrentUser();
+      // console.log(user);
+
       navigate("/");
       window.location.reload(false);
+      toast.success("Connexion réussie");
     });
   };
 

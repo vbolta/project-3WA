@@ -11,11 +11,8 @@ const articleSchema = Schema({
   dateCreated: { type: Date },
   dateModified: Date,
   content: { type: String, required: true },
-  picture: String,
-  // user: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "User",
-  // },
+  picture: { type: String, required: true },
+
   // reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
 });
 
