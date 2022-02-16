@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import logo from "../assets/bird.png";
 import toast from "react-hot-toast";
 
-export const Navbar = ({ user }) => {
+export const Navbar = ({ props }) => {
   // console.log(isAuthenticated);
   // const test = handleLogout();
 
-  console.log(user);
-
   const [isAuthenticated, setAuthenticated] = useState(false);
+
+  const user = props.user;
 
   // // console.log(localStorage.getItem("token"));
 
@@ -19,7 +19,7 @@ export const Navbar = ({ user }) => {
   }, [user]);
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
+    props.logout();
     setAuthenticated(false);
     // console.log("test");
   };

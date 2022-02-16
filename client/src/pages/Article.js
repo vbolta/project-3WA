@@ -14,17 +14,10 @@ const Article = ({ cart, setCart, user }) => {
   const [articleData, setArticleData] = useState([]);
   const id = useMatch("article/:id").params.id;
 
-  console.log(user);
-  console.log(articleData);
-
   useEffect(() => {
     Axios.get("http://localhost:3001/articles/" + id).then((article) => {
       setArticleData(article.data);
     });
-
-    // Axios.get("http://localhost:3001/reviews/find/" + id).then(
-    //   console.log("here2")
-    // );
   }, [id]);
 
   const addToCart = (product) => {
@@ -52,7 +45,6 @@ const Article = ({ cart, setCart, user }) => {
     Axios.post(`http://localhost:3001/articles/${id}/delete`, {
       id: id,
     }).then((response) => {
-      console.log(response);
       if (response.data.error) {
         toast.error(response.data.error);
         return;
@@ -99,13 +91,10 @@ const Article = ({ cart, setCart, user }) => {
       Checkout
     </Button> */}
 
-        {articleData.author && user.id === articleData.author.id && (
+        {articleData.author && user && user.id === articleData.author.id && (
           <div className="article-user-btn">
             <Popup
-              trigger={
-                <Button variant="danger">Supprimer l'article</Button>
-                // <button className="button"> Supprimer l'article </button>
-              }
+              trigger={<Button variant="danger">Supprimer l'article</Button>}
               modal
               nested
             >
@@ -152,7 +141,7 @@ const Article = ({ cart, setCart, user }) => {
           </div>
         )}
       </div>
-      <ReviewForm productId={id} />
+      {user && <ReviewForm productId={id} />}
     </>
   );
 };

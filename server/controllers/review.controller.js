@@ -16,16 +16,17 @@ module.exports = class ReviewController {
   }
 
   static getReviewsByPost(req, res) {
-    console.log(req.params.id);
+    // console.log("test " + req.params.id);
 
-    // const id = req.params.id;
-    // Review.findById(id).then(function (article) {
-    //   res.send(article);
-    // });
+    const product_id = req.params.id;
+    console.log(req.params.id, req.params.product_id);
+    Review.find({ product_id: product_id }).then(function (reviews) {
+      console.log(reviews);
+      res.status(200).send(reviews);
+    });
     // const product_id = req.body.product_id;
 
     // Review.find().then(function (reviews) {
-    //   res.status(200).send(reviews);
     // });
   }
 
@@ -55,7 +56,6 @@ module.exports = class ReviewController {
         } else {
           console.log(result);
           res.status(200).send("Commentaire ajouté");
-          // res.send("Commentaire ajoutée");
         }
       }
     );

@@ -37,10 +37,15 @@ function App() {
 
   localStorage.setItem("cart", cart);
 
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    setUser(false);
+  };
+
   return (
     <BrowserRouter>
       <Toaster />
-      <Navbar user={user} />
+      <Navbar props={{ user: user, logout: logout }} />
       {/* {user && <Navbar />} */}
       <div className="container mt-3 test">
         <Routes>
