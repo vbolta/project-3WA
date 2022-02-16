@@ -12,9 +12,7 @@ module.exports = class ReviewController {
     // console.log("test " + req.params.id);
 
     const product_id = req.params.id;
-    console.log(req.params.id, req.params.product_id);
     Review.find({ product_id: product_id }).then(function (reviews) {
-      console.log(reviews);
       res.status(200).send(reviews);
     });
     // const product_id = req.body.product_id;
@@ -54,10 +52,20 @@ module.exports = class ReviewController {
     );
   }
 
+  static async updateReview(req, res) {
+    const id = req.body.id;
+    const newContent = req.body.content;
+
+    await Article.findByIdAndUpdate(id, {
+      content: newContent,
+    });
+    res.status(200).send("Commentaire modifié");
+  }
+
   static async deleteReview(req, res) {
     const id = req.body.id;
     await Review.deleteOne({ _id: id });
-    res.status(200).send("Article supprimée");
+    res.status(200).send("Commentaire supprimé");
   }
 };
 

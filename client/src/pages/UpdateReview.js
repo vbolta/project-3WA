@@ -1,32 +1,28 @@
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
+import Axios from "axios";
 import Form from "../components/Form";
 import { useState } from "react";
-import Axios from "axios";
-import { useMatch, useLocation } from "react-router-dom";
 
-const UpdateArticle = () => {
-  const id = useMatch("article/update/:id").params.id;
-
-  const location = useLocation();
-
+const UpdateReview = () => {
   const [newArticleData, setNewArticleData] = useState({
     id: "",
-    title: location.state.title,
+    title: "location.state.title",
     picture: "",
-    content: location.state.content,
+    content: "location.state.content",
   });
-
-  console.log(id);
 
   const handleSubmit = () => {
     const data = new FormData();
-    data.append("id", id);
+    data.append("id", "id");
     data.append("title", newArticleData.title);
     data.append("file", newArticleData.picture);
     data.append("content", newArticleData.content);
 
-    Axios.post("http://localhost:3001/articles/" + id + "/update", data)
+    Axios.post(
+      "http://localhost:3001/articles/6207f4ff39324f5b132b6656/update",
+      data
+    )
       .then((response) => {
         console.log(response);
         if (response.data.error) {
@@ -91,4 +87,4 @@ const UpdateArticle = () => {
   );
 };
 
-export default UpdateArticle;
+export default UpdateReview;

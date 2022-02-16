@@ -40,9 +40,6 @@ module.exports = class ArticleController {
       ? req.file.filename
       : res.status(400).json({ error: "Veuillez ajouter une image" });
 
-    console.log(req.file);
-    console.log(photo);
-
     const date = new Date();
 
     const url = req.protocol + "://" + req.get("host");
@@ -75,7 +72,11 @@ module.exports = class ArticleController {
     const id = req.body.id;
     const newTitle = req.body.title;
     const newContent = req.body.content;
-    const url = req.protocol + "://" + req.get("host");
+    const photo = req.file
+      ? req.file.filename
+      : res.status(400).json({ error: "Veuillez ajouter une image" });
+
+    const url = req.protocol + "://" + photo;
 
     await Article.findByIdAndUpdate(id, {
       title: newTitle,

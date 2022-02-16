@@ -10,20 +10,12 @@ const ReviewForm = ({ productId }) => {
   const [reviewData, setReviewData] = useState([]);
   const [review, setReview] = useState({ author: "", content: "" });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
 
   const user = getCurrentUser();
   const handleChange = (name, value) => {
     setReview({ ...review, [name]: value });
   };
-
-  useEffect(() => {
-    Axios.get("http://localhost:3001/reviews/find/" + productId).then(
-      (response) => {
-        setReviewData(response.data);
-      }
-    );
-    setIsSubmitted(false);
-  }, [productId, isSubmitted, reviewData]);
 
   const handleSubmit = () => {
     Axios.post("http://localhost:3001/reviews/create", {
@@ -43,7 +35,18 @@ const ReviewForm = ({ productId }) => {
         return;
       }
     });
+    setIsDeleted(true);
   };
+
+  useEffect(() => {
+    Axios.get("http://localhost:3001/reviews/find/" + productId + "/").then(
+      (response) => {
+        setReviewData(response.data);
+      }
+    );
+    setIsSubmitted(false);
+    setIsDeleted(false);
+  }, [productId, isSubmitted, isDeleted]);
 
   return (
     <>
