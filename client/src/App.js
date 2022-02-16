@@ -45,7 +45,7 @@ function App() {
       <Toaster />
       <Navbar props={{ user: user, logout: logout }} />
       {/* {user && <Navbar />} */}
-      <div className="container mt-3 test">
+      <div className="container-fluid fill">
         <Routes>
           <Route path="/account/login" element={<LoginPage />} />
           <Route path="/account/register" element={<RegisterPage />} />

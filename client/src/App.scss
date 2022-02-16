@@ -5,6 +5,11 @@ $body-bg: #fbf8f1;
 
 .App {
   text-align: center;
+  width: 100%;
+  max-width: 800px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .Article-cards {
@@ -84,7 +89,17 @@ $body-bg: #fbf8f1;
 
 body {
   color: var(--secondary);
-  height: 100%;
+  padding: 0;
+}
+
+#root {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.fill {
+  flex-grow: 1;
 }
 
 main {
@@ -235,7 +250,7 @@ li.page-item.active .page-link {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 150px;
+  width: 100%;
   padding: 0px 50px;
   color: var(--secondary);
 }

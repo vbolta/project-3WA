@@ -72,18 +72,21 @@ module.exports = class ArticleController {
     const id = req.body.id;
     const newTitle = req.body.title;
     const newContent = req.body.content;
-    const photo = req.file
-      ? req.file.filename
-      : res.status(400).json({ error: "Veuillez ajouter une image" });
+    let photo;
+    if (!req.file) {
+      res.json({ error: "Veuillez ajouter une image" });
+    } else {
+      photo = req.file.filename;
+    }
 
-    const url = req.protocol + "://" + photo;
+    const url = req.protocol + "://" + req.get("host");
 
     await Article.findByIdAndUpdate(id, {
       title: newTitle,
       content: newContent,
-      picture: url + "/images/" + req.file.filename,
+      picture: url + "/images/" + photo,
     });
-    res.status(200).send("Article mis à jour");
+    res.json("Article mis à jour");
   }
 
   static async deleteArticle(req, res) {

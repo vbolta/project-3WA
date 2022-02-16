@@ -3,25 +3,24 @@ import FormControl from "react-bootstrap/FormControl";
 import Axios from "axios";
 import Form from "../components/Form";
 import { useState } from "react";
+import Button from "react-bootstrap/esm/Button";
+import Popup from "reactjs-popup";
+import toast from "react-hot-toast";
 
-const UpdateReview = () => {
-  const [newArticleData, setNewArticleData] = useState({
+const UpdateReview = ({ props }) => {
+  const [newReviewContent, setNewReviewContent] = useState({
     id: "",
-    title: "location.state.title",
-    picture: "",
-    content: "location.state.content",
+    content: props.review.content,
   });
 
+  console.log(props);
   const handleSubmit = () => {
-    const data = new FormData();
-    data.append("id", "id");
-    data.append("title", newArticleData.title);
-    data.append("file", newArticleData.picture);
-    data.append("content", newArticleData.content);
-
     Axios.post(
-      "http://localhost:3001/articles/6207f4ff39324f5b132b6656/update",
-      data
+      "http://localhost:3001/reviews/" + props.review._id + "/update",
+      {
+        id: props.review._id,
+        content: newReviewContent.content,
+      }
     )
       .then((response) => {
         console.log(response);
@@ -31,58 +30,62 @@ const UpdateReview = () => {
         }
       })
       .catch((err) => console.log(err));
+    props.setIsUpdated(true);
   };
 
   return (
     <>
-      <h1>Modifier votre article</h1>
-      <Form onSubmit={handleSubmit}>
-        <InputGroup className="mb-3">
-          <InputGroup.Text id="basic-addon1">
-            Titre de l'article
-          </InputGroup.Text>
-          <FormControl
-            type="text"
-            name="title"
-            placeholder="Titre"
-            aria-label="title"
-            aria-describedby="basic-addon1"
-            value={newArticleData.title}
-            onChange={(e) =>
-              setNewArticleData({ ...newArticleData, title: e.target.value })
-            }
-          />
-        </InputGroup>
+      <Popup
+        trigger={<Button variant="secondary">Modifier le commentaire</Button>}
+        modal
+        nested
+      >
+        {(close) => (
+          <div className="custom-modal">
+            <button className="close" onClick={close}>
+              &times;
+            </button>
+            <div className="header">Modifier le commentaire</div>
 
-        <InputGroup>
-          <FormControl
-            aria-label="Contenu de l'article"
-            type="file"
-            name="picture"
-            onChange={(e) =>
-              setNewArticleData({
-                ...newArticleData,
-                picture: e.target.files[0],
-              })
-            }
-          />
-        </InputGroup>
+            <InputGroup>
+              <InputGroup.Text>Contenu de l'article</InputGroup.Text>
+              <FormControl
+                aria-label="Contenu de l'article"
+                type="text"
+                name="content"
+                value={newReviewContent.content}
+                onChange={(e) =>
+                  setNewReviewContent({
+                    ...newReviewContent,
+                    content: e.target.value,
+                  })
+                }
+              />
+            </InputGroup>
 
-        <InputGroup>
-          <InputGroup.Text>Contenu de l'article</InputGroup.Text>
-          <FormControl
-            as="textarea"
-            aria-label="Contenu de l'article"
-            type="text"
-            name="content"
-            value={newArticleData.content}
-            onChange={(e) =>
-              setNewArticleData({ ...newArticleData, content: e.target.value })
-            }
-          />
-        </InputGroup>
-        <button className="btn btn-succes">Modifier l'article</button>
-      </Form>
+            <div className="actions">
+              <Button
+                variant="success"
+                onClick={() => {
+                  handleSubmit();
+                  toast.success("Commentaire modifié");
+                }}
+              >
+                Modifier le commentaire
+              </Button>
+
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  close();
+                }}
+              >
+                ANNULER
+              </Button>
+            </div>
+          </div>
+        )}
+      </Popup>
     </>
   );
 };

@@ -56,7 +56,9 @@ module.exports = class ReviewController {
     const id = req.body.id;
     const newContent = req.body.content;
 
-    await Article.findByIdAndUpdate(id, {
+    console.log(id, newContent);
+
+    await Review.findByIdAndUpdate(id, {
       content: newContent,
     });
     res.status(200).send("Commentaire modifié");

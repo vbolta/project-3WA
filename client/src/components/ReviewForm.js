@@ -5,12 +5,15 @@ import { useEffect, useState } from "react";
 import { getCurrentUser } from "../services/Authentification";
 import Button from "react-bootstrap/esm/Button";
 import toast from "react-hot-toast";
+import UpdateReview from "../pages/UpdateReview";
+import Popup from "reactjs-popup";
 
 const ReviewForm = ({ productId }) => {
   const [reviewData, setReviewData] = useState([]);
   const [review, setReview] = useState({ author: "", content: "" });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(false);
 
   const user = getCurrentUser();
   const handleChange = (name, value) => {
@@ -46,7 +49,8 @@ const ReviewForm = ({ productId }) => {
     );
     setIsSubmitted(false);
     setIsDeleted(false);
-  }, [productId, isSubmitted, isDeleted]);
+    setIsUpdated(false);
+  }, [productId, isSubmitted, isDeleted, isUpdated]);
 
   return (
     <>
@@ -76,7 +80,9 @@ const ReviewForm = ({ productId }) => {
                 >
                   Supprimer le commentaire
                 </Button>
-                <Button variant="secondary">Modifier le commentaire</Button>
+                <UpdateReview
+                  props={{ review: review, setIsUpdated: setIsUpdated }}
+                />
               </>
             );
           })}
