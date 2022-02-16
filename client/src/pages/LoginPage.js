@@ -11,12 +11,9 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [data, setData] = useState({ email: "", password: "" });
 
-  let user;
-
   const handleChange = (name, value) => {
     setData({ ...data, [name]: value });
   };
-
   Axios.defaults.withCredentials = true;
 
   const handleSubmit = async () => {

@@ -77,19 +77,17 @@ module.exports = class ArticleController {
     const newContent = req.body.content;
     const url = req.protocol + "://" + req.get("host");
 
-    console.log(url);
-
     await Article.findByIdAndUpdate(id, {
       title: newTitle,
       content: newContent,
       picture: url + "/images/" + req.file.filename,
     });
-    res.send("Update");
+    res.status(200).send("Article mis à jour");
   }
 
   static async deleteArticle(req, res) {
     const id = req.body.id;
     await Article.deleteOne({ _id: id });
-    res.send("Delete");
+    res.status(200).send("Article supprimée");
   }
 };

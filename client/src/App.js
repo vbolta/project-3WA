@@ -26,12 +26,10 @@ function App() {
   };
 
   useEffect(() => {
-    if (!user) {
-      const currentUser = getCurrentUser();
-      setUser(currentUser);
-      // console.log(currentUser);
-    }
-  }, [user]);
+    const currentUser = getCurrentUser();
+    setUser(currentUser);
+    console.log(currentUser);
+  }, []);
 
   const [cart, setCart] = useState([]);
 
@@ -49,11 +47,7 @@ function App() {
       {/* {user && <Navbar />} */}
       <div className="container mt-3 test">
         <Routes>
-          <Route
-            path="/account/login"
-            element={<LoginPage />}
-            props={getCurrentUser}
-          />
+          <Route path="/account/login" element={<LoginPage />} />
           <Route path="/account/register" element={<RegisterPage />} />
           <Route path="/new/article" element={<CreateArticle />} />
           <Route

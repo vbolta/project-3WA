@@ -8,13 +8,6 @@ module.exports = class ReviewController {
     });
   }
 
-  static getOneArticle(req, res) {
-    const id = req.params.id;
-    Article.findById(id).then(function (article) {
-      res.send(article);
-    });
-  }
-
   static getReviewsByPost(req, res) {
     // console.log("test " + req.params.id);
 
@@ -59,24 +52,13 @@ module.exports = class ReviewController {
         }
       }
     );
-
-    // const review = await Review.create(data);
-    // res.status(200).send(review);
   }
 
-  // static async userByReview(req, res) {
-  //   console.log(req);
-  //   const { id } = req.params;
-  //   const userByReview = await Review.findById(id).populate("user");
-  //   res.send(userByReview);
-  // }
-
-  //   static getActiveUser(req, res) {
-  //     const id = req.params.id;
-  //     Article.findById(id).then(function (user) {
-  //       res.send(user);
-  //     });
-  //   }
+  static async deleteReview(req, res) {
+    const id = req.body.id;
+    await Review.deleteOne({ _id: id });
+    res.status(200).send("Article supprimée");
+  }
 };
 
 // const db = require("../models");

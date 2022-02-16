@@ -15,8 +15,8 @@ export const Navbar = ({ props }) => {
 
   useEffect(() => {
     if (!user) return;
-    setAuthenticated(!isAuthenticated);
-  }, [user]);
+    setAuthenticated(true);
+  }, [user, setAuthenticated]);
 
   const handleLogout = () => {
     props.logout();
