@@ -36,9 +36,12 @@ module.exports = class ArticleController {
       name: name,
       mail: mail,
     };
-    const photo = req.file
-      ? req.file.filename
-      : res.status(400).json({ error: "Veuillez ajouter une image" });
+    let photo;
+    if (!req.file) {
+      res.json({ error: "Veuillez ajouter une image" });
+    } else {
+      photo = req.file.filename;
+    }
 
     const date = new Date();
 

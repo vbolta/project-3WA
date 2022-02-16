@@ -2,16 +2,24 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import logo from "../assets/bird.png";
 import toast from "react-hot-toast";
+import StripeCheckout from "react-stripe-checkout";
+import Axios from "axios";
 
 export const Navbar = ({ props }) => {
   // console.log(isAuthenticated);
   // const test = handleLogout();
 
+  console.log(props);
   const [isAuthenticated, setAuthenticated] = useState(false);
 
   const user = props.user;
 
-  // // console.log(localStorage.getItem("token"));
+  const cart = localStorage.getItem("cart");
+
+  const [product, setProduct] = useState({
+    name: "test",
+    price: 23,
+  });
 
   useEffect(() => {
     if (!user) return;
@@ -22,6 +30,17 @@ export const Navbar = ({ props }) => {
     props.logout();
     setAuthenticated(false);
     // console.log("test");
+  };
+
+  const makePayment = (token) => {
+    const body = { token, product };
+    Axios.post("http://localhost:3001/orders/payment", body)
+      .then((response) => {
+        console.log(response);
+        // const { status } = response;
+        // console.log(status);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -45,6 +64,7 @@ export const Navbar = ({ props }) => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+        <button onClick={makePayment}>TEST</button>
 
         <div className="collapse navbar-collapse" id="navbarColor03">
           <ul className="navbar-nav me-auto">
@@ -75,12 +95,18 @@ export const Navbar = ({ props }) => {
             )}
 
             <>
-              <header>
-                Go to cart (
-                {localStorage.getItem("cart") &&
-                  localStorage.getItem("cart").split(",").length}
-                )
-              </header>
+              <header>Go to cart ({cart && cart.split(",").length})</header>
+              {cart && (
+                <StripeCheckout
+                  stripeKey={
+                    "pk_test_51KQGxlF8ilF9NswhOpwMDzSMvPRvzpgLaa8JE06tHjFgafXUvu2TG5yoDPYrB3S1FfG5BgCfHaPMusav7dC1kDeG00TqkvBd2O"
+                  }
+                  token={makePayment}
+                  name="Test"
+                >
+                  <button>Test</button>
+                </StripeCheckout>
+              )}
             </>
 
             {isAuthenticated && (

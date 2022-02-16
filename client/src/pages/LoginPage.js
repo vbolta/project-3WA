@@ -7,7 +7,8 @@ import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import { getCurrentUser } from "../services/Authentification";
 
-const LoginPage = () => {
+const LoginPage = ({ setAuthenticated }) => {
+  console.log(setAuthenticated);
   const navigate = useNavigate();
   const [data, setData] = useState({ email: "", password: "" });
 
@@ -31,7 +32,8 @@ const LoginPage = () => {
       // console.log(user);
 
       navigate("/");
-      window.location.reload(false);
+      setAuthenticated(true);
+      // window.location.reload(false);
       toast.success("Connexion réussie");
     });
   };

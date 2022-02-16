@@ -6,6 +6,7 @@ const cors = require("cors");
 const users = require("./routes/user.router");
 const articles = require("./routes/article.router");
 const reviews = require("./routes/review.router");
+const orders = require("./routes/order.router");
 
 // const session = require("express-session");
 // const multer = require("multer");
@@ -32,32 +33,9 @@ const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 app.use("/users", users);
 app.use("/articles", articles);
 app.use("/reviews", reviews);
+app.use("/orders", orders);
 
 app.use(express.static(__dirname));
-app.post("/checkout", async (req, res) => {
-  console.log("test");
-  // try {
-  //   const session = await stripe.checkout.sessions.create({
-  //     payment_method_types: ["card"],
-  //     mode: "payment",
-  //     line_items: req.body.items.map((item) => {
-  //       const storeItem = storeItems.get(item.id);
-  //       return {
-  //         price_date:{
-  //           currency: 'eur',
-  //           orid
-  //         },
-  //         quantity
-  //       }
-  //     }),
-  //     success_url: `${process.env.SERVER_URL}/success.html`,
-  //     cancel_url: `${process.env.SERVER_URL}/cancel.html`,
-  //   });
-  //   res.json({ url: session.url });
-  // } catch (e) {
-  //   res.status(500).json({ error: e.message });
-  // }
-});
 
 app.listen(PORT, hostname, () => {
   console.log(`Server running at http://${hostname}:${PORT}/`);

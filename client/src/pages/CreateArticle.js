@@ -31,12 +31,6 @@ const CreateArticle = () => {
     })
       .then((response) => {
         console.log(response);
-
-        if (response.data.error) {
-          toast.error(response.data.error);
-          return;
-        }
-
         navigate("/");
         toast.success("Article créée");
       })

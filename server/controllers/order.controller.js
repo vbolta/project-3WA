@@ -1,79 +1,42 @@
-const Frame = require("../models/order.model");
-const jwt = require("jsonwebtoken");
+const order = require("../models/order.model");
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
-module.exports = class FrameController {
-  static createOneOrder(req, res) {
-    const name = req.body.name;
-    const mail = req.body.mail;
-    const password = req.body.password;
-
-    bcrypt.hash(password, saltRounds, (err, hash) => {
-      if (err) {
-        console.log(err);
-      }
-
-      User.create(
-        { mail: mail, name: name, password: hash },
-        function (err, reponse) {
-          if (err) {
-            console.log(err);
-          } else {
-            res.send("Data ajoutée");
-          }
-        }
-      );
-    });
+module.exports = class OrderController {
+  static async createOrder(req, res) {
+    console.log(req.body);
+    const product = req.body.product;
+    const token = req.body.token;
+    // //const isdempotencyKey = uuid();
+    //test
+    return stripe.customers
+      .create({
+        email: token.email,
+        source: token.id,
+      })
+      .then((customer) => {
+        stripe.charges.create({
+          amount: product.price * 100,
+          currency: "eur",
+          customer: customer.id,
+          description: product.name,
+        });
+      })
+      .then((result) => res.status(200).json(result))
+      .catch((err) => console.log(err));
   }
-  static getOneArticle(req, res) {
-    const id = req.params.id;
-    Article.findById(id).then(function (article) {
-      res.send(article);
-    });
-  }
-
-  static getRandomArticles(req, res) {
-    const limit = 4; // Display four random articles
-    User.find().then(function (result) {
-      const randomize = result.sort(() => 0.5 - Math.random());
-      let randomArticles = randomize.slice(0, limit);
-      res.send(randomArticles);
-    });
-  }
-
-  static addOneArticle(req, res) {
-    const { id, name } = jwt.verify(
-      req.headers.accesstoken,
-      process.env.JWT_SECRET_TOKEN
-    );
-    const title = req.body.title;
-    const content = req.body.content;
-    const author = {
-      id: id,
-      name: name,
-    };
-
-    const url = req.protocol + "://" + req.get("host");
-    Article.create(
-      {
-        title: title,
-        picture: url + "/images/" + req.file.filename,
-        author: author,
-        content: content,
-      },
-      function (err, result) {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log(result);
-          res.send("Article ajoutée");
-        }
-      }
-    );
-  }
-
-  static async userByPost(req, res) {
-    const { id } = req.params;
-    const userByPost = await Post.findById(id).populate("user");
-    res.send(userByPost);
-  }
+  //  try{
+  //    const session = await stripe.checkout.sessions.create({
+  //     payment_method_types : ['card'],
+  //     line_items :req.body.items.map(item =>{
+  //       const storeItem
+  //     }),
+  //     mode:'payment',
+  //     success_url: `http://${process.env.SERVER_HOST}:${process.env.SERVER_PORT}/checkout_success`,
+  //     cancel_url: `http://${process.env.SERVER_HOST}:${process.env.SERVER_PORT}/checkout_cancel`
+  //    })
+  //    res.json({url:session.url})
+  //  }catch(e){
+  //    res.status(500).json({error: e.message})
+  //  }
+  // }
 };

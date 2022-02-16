@@ -16,6 +16,8 @@ import Footer from "./components/Footer";
 function App() {
   const [user, setUser] = useState(null);
 
+  const [isAuthenticated, setAuthenticated] = useState(false);
+
   const getCurrentUser = () => {
     try {
       const token = localStorage.getItem("accessToken");
@@ -28,8 +30,8 @@ function App() {
   useEffect(() => {
     const currentUser = getCurrentUser();
     setUser(currentUser);
-    console.log(currentUser);
-  }, []);
+    setAuthenticated(false);
+  }, [isAuthenticated]);
 
   const [cart, setCart] = useState([]);
 
@@ -43,11 +45,20 @@ function App() {
   return (
     <BrowserRouter>
       <Toaster />
-      <Navbar props={{ user: user, logout: logout }} />
+      <Navbar
+        props={{
+          user: user,
+          logout: logout,
+          isAuthenticated: isAuthenticated,
+        }}
+      />
       {/* {user && <Navbar />} */}
       <div className="container-fluid fill">
         <Routes>
-          <Route path="/account/login" element={<LoginPage />} />
+          <Route
+            path="/account/login"
+            element={<LoginPage setAuthenticated={setAuthenticated} />}
+          />
           <Route path="/account/register" element={<RegisterPage />} />
           <Route path="/new/article" element={<CreateArticle />} />
           <Route
