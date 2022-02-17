@@ -9,36 +9,29 @@ export const Navbar = ({ props }) => {
   // console.log(isAuthenticated);
   // const test = handleLogout();
 
-  console.log(props);
+  console.log(props.cart);
   const [isAuthenticated, setAuthenticated] = useState(false);
+  const [products, setProducts] = useState([]);
 
   const user = props.user;
-
-  const cart = localStorage.getItem("cart");
-
-  const [product, setProduct] = useState({
-    name: "test",
-    price: 23,
-  });
+  const cart = props.cart;
 
   useEffect(() => {
     if (!user) return;
     setAuthenticated(true);
-  }, [user, setAuthenticated]);
+    setProducts(cart);
+  }, [user, setAuthenticated, cart]);
 
   const handleLogout = () => {
     props.logout();
     setAuthenticated(false);
-    // console.log("test");
   };
 
   const makePayment = (token) => {
-    const body = { token, product };
+    const body = { products, token };
     Axios.post("http://localhost:3001/orders/payment", body)
       .then((response) => {
         console.log(response);
-        // const { status } = response;
-        // console.log(status);
       })
       .catch((err) => console.log(err));
   };
@@ -71,6 +64,11 @@ export const Navbar = ({ props }) => {
             {isAuthenticated && (
               <>
                 <li className="nav-item">
+                  <Link className="nav-link" to="/articles">
+                    Liste des articles
+                  </Link>
+                </li>
+                <li className="nav-item">
                   <Link className="nav-link" to="/new/article">
                     Créer un article
                   </Link>
@@ -95,7 +93,7 @@ export const Navbar = ({ props }) => {
             )}
 
             <>
-              <header>Go to cart ({cart && cart.split(",").length})</header>
+              <header>Mon panier ({cart.length})</header>
               {cart && (
                 <StripeCheckout
                   stripeKey={

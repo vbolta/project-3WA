@@ -30,8 +30,7 @@ const CreateArticle = () => {
       headers: { accessToken: localStorage.getItem("accessToken") },
     })
       .then((response) => {
-        console.log(response);
-        navigate("/");
+        navigate("/articles");
         toast.success("Article créée");
       })
       .catch((err) => {

@@ -17,7 +17,7 @@ module.exports = class ArticleController {
 
   static getRandomArticles(req, res) {
     const limit = 4; // Display four random articles
-    User.find().then(function (result) {
+    Article.find().then(function (result) {
       const randomize = result.sort(() => 0.5 - Math.random());
       let randomArticles = randomize.slice(0, limit);
       res.send(randomArticles);
@@ -58,7 +58,6 @@ module.exports = class ArticleController {
         if (err) {
           console.log(err);
         } else {
-          // console.log(result);
           res.send("Article ajoutée");
         }
       }

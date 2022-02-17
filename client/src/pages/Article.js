@@ -20,26 +20,11 @@ const Article = ({ cart, setCart, user }) => {
     });
   }, [id]);
 
-  const addToCart = (product) => {
-    setCart([...cart, product]);
-    // console.log(cart);
+  const addToCart = (name, price) => {
+    setCart([...cart, { name: name, price: price }]);
   };
 
-  const handleClick = () => {
-    Axios.post("http://localhost:3001/articles/checkout", {
-      headers: {
-        "Content-Type": "application/json",
-        id: id,
-        // mail: "data.email",
-        // password: "data.password",
-      },
-    })
-      .then((res) => {
-        if (res.ok) return res.json;
-        return res.son().then((json) => Promise.reject(json));
-      })
-      .then(({ url }) => console.log(url));
-  };
+  // console.log([articleData]);
 
   const handleDelete = () => {
     Axios.post(`http://localhost:3001/articles/${id}/delete`, {
@@ -49,7 +34,7 @@ const Article = ({ cart, setCart, user }) => {
         toast.error(response.data.error);
         return;
       }
-      navigate("/");
+      navigate("/articles");
     });
   };
 
@@ -62,7 +47,7 @@ const Article = ({ cart, setCart, user }) => {
           <p>{articleData.content}</p>
           <h2>Auteur</h2>
           {articleData.author && <p>{articleData.author.name}</p>}
-          <p>Category</p>
+          <p>Photo</p>
           {articleData.picture && (
             <Image
               src={articleData.picture}
@@ -71,12 +56,14 @@ const Article = ({ cart, setCart, user }) => {
             />
           )}
           <p>{articleData.dateCreated}</p>
+          <p>{articleData.price}</p>
+
           <DropdownButton id="dropdown-basic-button" title="Dropdown button">
             <Dropdown.Item
               href="#/action-1"
               name="test"
               onClick={() => {
-                addToCart(articleData.title);
+                addToCart(articleData.title, articleData.price);
                 toast.success("Article ajouté dans votre panier");
               }}
             >

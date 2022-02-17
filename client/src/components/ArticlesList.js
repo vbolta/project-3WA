@@ -15,7 +15,7 @@ const ArticlesList = () => {
 
   return (
     <>
-      <SearchBar articles={[articles]} />
+      <SearchBar articles={articles} />
       <div className="Article-cards">
         {articles.length > 0 &&
           articles.map((article) => (

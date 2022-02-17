@@ -6,6 +6,7 @@ const {
   userByPost,
   deleteArticle,
   updateArticle,
+  getRandomArticles,
 } = require("../controllers/article.controller");
 const multer = require("multer");
 const { validateToken } = require("../middlewares/auth.middleware");
@@ -26,6 +27,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.get("/", getAllArticles);
+router.get("/random", getRandomArticles);
+
 router.get("/:id", getOneArticle);
 router.post(
   "/createArticle",

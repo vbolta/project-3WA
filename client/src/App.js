@@ -12,6 +12,7 @@ import { getCurrentUser } from "./services/Authentification";
 import toast, { Toaster } from "react-hot-toast";
 
 import Footer from "./components/Footer";
+import ArticlesList from "./components/ArticlesList";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -35,8 +36,6 @@ function App() {
 
   const [cart, setCart] = useState([]);
 
-  localStorage.setItem("cart", cart);
-
   const logout = () => {
     localStorage.removeItem("accessToken");
     setUser(false);
@@ -50,6 +49,7 @@ function App() {
           user: user,
           logout: logout,
           isAuthenticated: isAuthenticated,
+          cart: cart,
         }}
       />
       {/* {user && <Navbar />} */}
@@ -60,6 +60,8 @@ function App() {
             element={<LoginPage setAuthenticated={setAuthenticated} />}
           />
           <Route path="/account/register" element={<RegisterPage />} />
+          <Route path="/articles" element={<ArticlesList />} />
+
           <Route path="/new/article" element={<CreateArticle />} />
           <Route
             path="/article/:id"

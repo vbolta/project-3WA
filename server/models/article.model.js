@@ -12,8 +12,7 @@ const articleSchema = Schema({
   dateModified: Date,
   content: { type: String, required: true },
   picture: { type: String, required: true },
-
-  // reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
+  price: { type: Number, default: 12 },
 });
 
 const Article = mongoose.model("Article", articleSchema);

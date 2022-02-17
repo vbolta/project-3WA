@@ -12,7 +12,7 @@ const orderSchema = Schema({
   // price: { type: Number, enum: [5, 8, 12] },
   // madeAt: { type: Date },
   totalPrice: { type: Number },
-  userAdress: { type: String },
+  customerMail: { type: String },
 });
 
 const Order = mongoose.model("Order", orderSchema);
