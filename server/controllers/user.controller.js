@@ -48,7 +48,6 @@ module.exports = class UserController {
       res.json({ error: "Pas d'utilisateur avec ce mail" });
     } else {
       bcrypt.compare(password, user.password, function (error, response) {
-        console.log(password, user.password, error, response);
         if (response) {
           const accessToken = jwt.sign(
             { name: user.name, mail: user.mail, id: user._id },
@@ -67,27 +66,13 @@ module.exports = class UserController {
 
   static async postsByUser(req, res) {
     const { id } = req.params;
-
-    console.log(id);
     const user = await User.findById(id).populate("articles");
-
-    console.log(user);
-
-    console.log(user.articles);
-
     res.send(user.articles);
   }
 
   static async reviewsByUser(req, res) {
     const { id } = req.params;
-
-    console.log(id);
     const user = await User.findById(id).populate("reviews");
-
-    console.log(user);
-
-    console.log(user.reviews);
-
     res.send(user.reviews);
   }
 };

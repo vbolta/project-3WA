@@ -1,9 +1,9 @@
-import { FaCheck } from "react-icons/fa";
-import Field from "../components/Field";
-import Form from "../components/Form";
 import Axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { FaCheck } from "react-icons/fa";
+import Field from "../components/Field";
+import Form from "../components/Form";
 
 const RegisterPage = () => {
   const navigate = useNavigate();

@@ -1,11 +1,11 @@
+import { useEffect, useState } from "react";
 import Axios from "axios";
+import { getCurrentUser } from "../services/Authentification";
+import toast from "react-hot-toast";
+import UpdateReview from "./UpdateReview";
 import Form from "../components/Form";
 import Field from "../components/Field";
-import { useEffect, useState } from "react";
-import { getCurrentUser } from "../services/Authentification";
 import Button from "react-bootstrap/esm/Button";
-import toast from "react-hot-toast";
-import UpdateReview from "../pages/UpdateReview";
 
 const ReviewForm = ({ productId }) => {
   const [reviewData, setReviewData] = useState([]);
@@ -19,13 +19,26 @@ const ReviewForm = ({ productId }) => {
     setReview({ ...review, [name]: value });
   };
 
+  useEffect(() => {
+    Axios.get(
+      process.env.REACT_APP_SERVER_URL + "/reviews/find/" + productId + "/"
+    ).then((response) => {
+      setReviewData(response.data);
+    });
+    setIsSubmitted(false);
+    setIsDeleted(false);
+    setIsUpdated(false);
+  }, [productId, isSubmitted, isDeleted, isUpdated]);
+
   const handleSubmit = () => {
     Axios.post(process.env.REACT_APP_SERVER_URL + "/reviews/create", {
       author: user,
       content: review.content,
       product_id: productId,
     });
+    setReview({ ...review, content: "" });
     setIsSubmitted(true);
+    toast.success("Commentaire ajouté");
   };
 
   const handleDelete = (review_id) => {
@@ -38,18 +51,8 @@ const ReviewForm = ({ productId }) => {
       }
     });
     setIsDeleted(true);
+    toast.success("Commentaire supprimé");
   };
-
-  useEffect(() => {
-    Axios.get(
-      process.env.REACT_APP_SERVER_URL + "/reviews/find/" + productId + "/"
-    ).then((response) => {
-      setReviewData(response.data);
-    });
-    setIsSubmitted(false);
-    setIsDeleted(false);
-    setIsUpdated(false);
-  }, [productId, isSubmitted, isDeleted, isUpdated]);
 
   return (
     <>
@@ -69,8 +72,8 @@ const ReviewForm = ({ productId }) => {
         reviewData.map((review) => {
           return (
             <>
-              <div className="reviews">
-                <ul key={review._id}>
+              <div className="reviews" key={review._id}>
+                <ul>
                   <li className="content">{review.content}</li>
                   <li className="author">
                     Ecrit par {review.author.name} le {review.createdAt}

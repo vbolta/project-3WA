@@ -1,11 +1,10 @@
-import InputGroup from "react-bootstrap/InputGroup";
-import FormControl from "react-bootstrap/FormControl";
-import Axios from "axios";
 import { useState } from "react";
-import Button from "react-bootstrap/esm/Button";
+import Axios from "axios";
 import Popup from "reactjs-popup";
 import toast from "react-hot-toast";
-import { getCurrentUser } from "../services/Authentification";
+import InputGroup from "react-bootstrap/InputGroup";
+import FormControl from "react-bootstrap/FormControl";
+import Button from "react-bootstrap/esm/Button";
 
 const UpdateReview = ({ props }) => {
   const [newReviewContent, setNewReviewContent] = useState({
@@ -33,8 +32,6 @@ const UpdateReview = ({ props }) => {
       .catch((err) => console.log(err));
     props.setIsUpdated(true);
   };
-
-  console.log(getCurrentUser());
 
   return (
     <>

@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// mongoose.connect("mongodb://localhost:27017/test");
-
 const userSchema = new Schema({
   name: { type: String, required: true },
   mail: {

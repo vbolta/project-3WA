@@ -1,5 +1,4 @@
 const Review = require("../models/review.model");
-const jwt = require("jsonwebtoken");
 
 module.exports = class ReviewController {
   static getAllReviews(req, res) {
@@ -9,24 +8,13 @@ module.exports = class ReviewController {
   }
 
   static getReviewsByPost(req, res) {
-    // console.log("test " + req.params.id);
-
     const product_id = req.params.id;
     Review.find({ product_id: product_id }).then(function (reviews) {
       res.status(200).send(reviews);
     });
-    // const product_id = req.body.product_id;
-
-    // Review.find().then(function (reviews) {
-    // });
   }
 
   static async addReview(req, res) {
-    // const data = {
-    //   product_id: id,
-    //   // content: req.body.rating,
-    // };
-
     const author = {
       id: req.body.author.id,
       name: req.body.author.name,
@@ -45,7 +33,6 @@ module.exports = class ReviewController {
         if (err) {
           console.log(err);
         } else {
-          console.log(result);
           res.status(200).send("Commentaire ajouté");
         }
       }
@@ -55,8 +42,6 @@ module.exports = class ReviewController {
   static async updateReview(req, res) {
     const id = req.body.id;
     const newContent = req.body.content;
-
-    console.log(id, newContent);
 
     await Review.findByIdAndUpdate(id, {
       content: newContent,
@@ -70,37 +55,3 @@ module.exports = class ReviewController {
     res.status(200).send("Commentaire supprimé");
   }
 };
-
-// const db = require("../models");
-
-// // model
-// const Review = db.reviews;
-
-// // functions
-
-// //1. Add Review
-
-// const addReview = async (req, res) => {
-//   const id = req.params.id;
-
-//   let data = {
-//     product_id: id,
-//     rating: req.body.rating,
-//     description: req.body.description,
-//   };
-
-//   const review = await Review.create(data);
-//   res.status(200).send(review);
-// };
-
-// // 2. Get All Reviews
-
-// const getAllReviews = async (req, res) => {
-//   const reviews = await Review.findAll({});
-//   res.status(200).send(reviews);
-// };
-
-// module.exports = {
-//   addReview,
-//   getAllReviews,
-// };

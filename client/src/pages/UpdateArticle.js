@@ -1,13 +1,14 @@
-import InputGroup from "react-bootstrap/InputGroup";
-import FormControl from "react-bootstrap/FormControl";
-import Form from "../components/Form";
 import { useState } from "react";
+import { useMatch, useLocation, Navigate, useNavigate } from "react-router-dom";
 import Axios from "axios";
-import { useMatch, useLocation } from "react-router-dom";
+import toast from "react-hot-toast";
+import Form from "../components/Form";
+import FormControl from "react-bootstrap/FormControl";
+import InputGroup from "react-bootstrap/InputGroup";
 
 const UpdateArticle = () => {
   const id = useMatch("article/update/:id").params.id;
-
+  const navigate = useNavigate();
   const location = useLocation();
 
   const [newArticleData, setNewArticleData] = useState({
@@ -16,8 +17,6 @@ const UpdateArticle = () => {
     picture: "",
     content: location.state.content,
   });
-
-  console.log(id);
 
   const handleSubmit = () => {
     const data = new FormData();
@@ -31,20 +30,20 @@ const UpdateArticle = () => {
       data
     )
       .then((response) => {
-        console.log(response);
         if (response.data.error) {
-          alert("ERROR");
+          toast.error(response.data.error);
           return;
         }
       })
       .catch((err) => console.log(err));
+    navigate("/article/" + id);
   };
 
   return (
     <>
       <h1>Modifier votre article</h1>
       <Form onSubmit={handleSubmit}>
-        <InputGroup className="mb-3">
+        <InputGroup className="mb-3 mt-3">
           <InputGroup.Text id="basic-addon1">
             Titre de l'article
           </InputGroup.Text>
@@ -61,7 +60,7 @@ const UpdateArticle = () => {
           />
         </InputGroup>
 
-        <InputGroup>
+        <InputGroup className="mb-3 mt-3">
           <FormControl
             aria-label="Contenu de l'article"
             type="file"
@@ -75,20 +74,21 @@ const UpdateArticle = () => {
           />
         </InputGroup>
 
-        <InputGroup>
+        <InputGroup className="mb-3 mt-3">
           <InputGroup.Text>Contenu de l'article</InputGroup.Text>
           <FormControl
             as="textarea"
             aria-label="Contenu de l'article"
             type="text"
             name="content"
+            rows={6}
             value={newArticleData.content}
             onChange={(e) =>
               setNewArticleData({ ...newArticleData, content: e.target.value })
             }
           />
         </InputGroup>
-        <button className="btn btn-succes">Modifier l'article</button>
+        <button className="btn btn-success">Modifier l'article</button>
       </Form>
     </>
   );

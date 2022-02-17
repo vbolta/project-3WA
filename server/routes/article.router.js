@@ -10,9 +10,9 @@ const {
 } = require("../controllers/article.controller");
 const multer = require("multer");
 const { validateToken } = require("../middlewares/auth.middleware");
-const path = require("path");
 const router = express.Router();
 
+// To store image file
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "images");
@@ -20,7 +20,6 @@ const storage = multer.diskStorage({
 
   filename: (req, file, cb) => {
     cb(null, file.originalname);
-    // cb(null, "test.jpg");
   },
 });
 
@@ -28,7 +27,6 @@ const upload = multer({ storage: storage });
 
 router.get("/", getAllArticles);
 router.get("/random", getRandomArticles);
-
 router.get("/:id", getOneArticle);
 router.post(
   "/createArticle",

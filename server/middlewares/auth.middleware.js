@@ -1,8 +1,9 @@
 const jwt = require("jsonwebtoken");
 
+// JWT middleware using localStorage in client
+
 const validateToken = (req, res, next) => {
   const accessToken = req.header("accessToken");
-
   if (!accessToken) return res.json({ error: "Pas connecté" });
 
   try {

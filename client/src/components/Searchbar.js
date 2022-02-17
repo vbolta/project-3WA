@@ -4,7 +4,6 @@ import Button from "react-bootstrap/esm/Button";
 import { Link } from "react-router-dom";
 
 export const SearchBar = ({ articles }) => {
-  console.log(articles);
   const [searchTerm, setSearchTerm] = useState();
   return (
     <>

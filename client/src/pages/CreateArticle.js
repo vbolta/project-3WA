@@ -1,9 +1,9 @@
+import { useState } from "react";
+import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Form from "../components/Form";
-import { useState } from "react";
-import Axios from "axios";
 import toast from "react-hot-toast";
 
 const CreateArticle = () => {
@@ -95,7 +95,7 @@ const CreateArticle = () => {
             }
           />
         </InputGroup>
-        <button className="btn btn-succes">Créer un nouvel article</button>
+        <button className="btn btn-success">Créer un nouvel article</button>
       </Form>
     </>
   );

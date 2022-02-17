@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Axios from "axios";
+import { Link } from "react-router-dom";
 import logo from "../assets/bird.png";
 import toast from "react-hot-toast";
 import StripeCheckout from "react-stripe-checkout";
-import Axios from "axios";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 
 export const Navbar = ({ props }) => {
@@ -82,7 +82,6 @@ export const Navbar = ({ props }) => {
                 </li>
               </>
             )}
-
             <>
               {cart && (
                 <>
@@ -98,6 +97,7 @@ export const Navbar = ({ props }) => {
                       </button>
                     </li>
                   </StripeCheckout>
+
                   {cart.length > 0 && (
                     <li className="nav-item">
                       <button

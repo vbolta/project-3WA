@@ -1,13 +1,12 @@
-import { FaUnlock } from "react-icons/fa";
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import Axios from "axios";
+import toast from "react-hot-toast";
 import Field from "../components/Field";
 import Form from "../components/Form";
-import { useState } from "react";
-import Axios from "axios";
-import { useNavigate } from "react-router";
-import toast from "react-hot-toast";
+import { FaUnlock } from "react-icons/fa";
 
 const LoginPage = ({ setAuthenticated }) => {
-  console.log(setAuthenticated);
   const navigate = useNavigate();
   const [data, setData] = useState({ email: "", password: "" });
 
