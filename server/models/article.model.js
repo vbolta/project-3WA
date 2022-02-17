@@ -11,7 +11,7 @@ const articleSchema = Schema({
   dateCreated: { type: Date, defaut: Date.now() },
   dateModified: Date,
   content: { type: String, required: true },
-  picture: { type: String, required: true },
+  picture: { type: String },
   price: { type: Number, default: 12 },
 });
 
