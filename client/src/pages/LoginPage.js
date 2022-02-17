@@ -15,6 +15,7 @@ const LoginPage = ({ setAuthenticated }) => {
   const handleChange = (name, value) => {
     setData({ ...data, [name]: value });
   };
+
   Axios.defaults.withCredentials = true;
 
   const handleSubmit = async () => {
@@ -27,26 +28,11 @@ const LoginPage = ({ setAuthenticated }) => {
         return;
       }
       localStorage.setItem("accessToken", response.data);
-      console.log(response);
-      // user = getCurrentUser();
-      // console.log(user);
-
       navigate("/");
       setAuthenticated(true);
-      // window.location.reload(false);
       toast.success("Connexion réussie");
     });
   };
-
-  // useEffect(() => {
-  //   Axios.get("http://localhost:3001/users/login", {
-  //     headers: { "x-access-token": localStorage.getItem("token") },
-  //   }).then((response) => {
-  //     if (localStorage.getItem("token")) {
-  //       console.log(response.data.loggedIn);
-  //     }
-  //   });
-  // }, []);
 
   return (
     <>

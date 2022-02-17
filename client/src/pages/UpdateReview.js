@@ -6,6 +6,7 @@ import { useState } from "react";
 import Button from "react-bootstrap/esm/Button";
 import Popup from "reactjs-popup";
 import toast from "react-hot-toast";
+import { getCurrentUser } from "../services/Authentification";
 
 const UpdateReview = ({ props }) => {
   const [newReviewContent, setNewReviewContent] = useState({
@@ -13,7 +14,6 @@ const UpdateReview = ({ props }) => {
     content: props.review.content,
   });
 
-  console.log(props);
   const handleSubmit = () => {
     Axios.post(
       "http://localhost:3001/reviews/" + props.review._id + "/update",
@@ -23,15 +23,16 @@ const UpdateReview = ({ props }) => {
       }
     )
       .then((response) => {
-        console.log(response);
         if (response.data.error) {
-          alert("ERROR");
+          toast.error(response.data.error);
           return;
         }
       })
       .catch((err) => console.log(err));
     props.setIsUpdated(true);
   };
+
+  console.log(getCurrentUser());
 
   return (
     <>

@@ -24,8 +24,6 @@ const Article = ({ cart, setCart, user }) => {
     setCart([...cart, { name: name, price: price }]);
   };
 
-  // console.log([articleData]);
-
   const handleDelete = () => {
     Axios.post(`http://localhost:3001/articles/${id}/delete`, {
       id: id,
@@ -40,94 +38,88 @@ const Article = ({ cart, setCart, user }) => {
 
   return (
     <>
-      <div className="article-display">
-        <section>
+      <section className="article-flex">
+        <div className="article-left">
           <h1>{articleData.title}</h1>
           <h2>Contenu de l'article</h2>
           <p>{articleData.content}</p>
           <h2>Auteur</h2>
           {articleData.author && <p>{articleData.author.name}</p>}
-          <p>Photo</p>
+        </div>
+        <div className="article-right">
           {articleData.picture && (
             <Image
+              className="article-img"
               src={articleData.picture}
               alt={articleData.title}
-              thumbnail={true}
+              responsive
             />
           )}
-          <p>{articleData.dateCreated}</p>
-          <p>{articleData.price}</p>
+          <p>Date d'ajout de l'article: {articleData.dateCreated}</p>
+          <p>Prix: {articleData.price} €</p>
 
-          <DropdownButton id="dropdown-basic-button" title="Dropdown button">
-            <Dropdown.Item
-              href="#/action-1"
-              name="test"
-              onClick={() => {
-                addToCart(articleData.title, articleData.price);
-                toast.success("Article ajouté dans votre panier");
-              }}
-            >
-              Action
-            </Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-          </DropdownButton>
-        </section>
-
-        {/* <Button variant="primary" onClick={addToCart}>
-      Checkout
-    </Button> */}
-
-        {articleData.author && user && user.id === articleData.author.id && (
-          <div className="article-user-btn">
-            <Popup
-              trigger={<Button variant="danger">Supprimer l'article</Button>}
-              modal
-              nested
-            >
-              {(close) => (
-                <div className="custom-modal">
-                  <button className="close" onClick={close}>
-                    &times;
-                  </button>
-                  <div className="header">
-                    Êtes-vous certain de vouloir supprimer cet article?
-                  </div>
-                  <div className="actions">
-                    <Button
-                      variant="warning"
-                      onClick={() => {
-                        handleDelete();
-                        toast.success("Article supprimée");
-                      }}
-                    >
-                      OUI
-                    </Button>
-
-                    <Button
-                      variant="secondary"
-                      onClick={() => {
-                        close();
-                      }}
-                    >
-                      ANNULER
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </Popup>
-            <Button variant="warning">
-              <Link
-                className="nav-link"
-                to={"/article/update/" + id}
-                state={articleData}
+          <button
+            className="btn btn-success"
+            name="Ajout au Panier"
+            onClick={() => {
+              addToCart(articleData.title, articleData.price);
+              toast.success("Article ajouté dans votre panier");
+            }}
+          >
+            Ajout au Panier
+          </button>
+          {articleData.author && user && user.id === articleData.author.id && (
+            <>
+              <Popup
+                trigger={<Button variant="danger">Supprimer l'article</Button>}
+                modal
+                nested
               >
-                Modifier l'article
-              </Link>
-            </Button>
-          </div>
-        )}
-      </div>
+                {(close) => (
+                  <div className="custom-modal">
+                    <button className="close" onClick={close}>
+                      &times;
+                    </button>
+                    <div className="header">
+                      Êtes-vous certain de vouloir supprimer cet article?
+                    </div>
+                    <div className="actions">
+                      <Button
+                        variant="warning"
+                        onClick={() => {
+                          handleDelete();
+                          toast.success("Article supprimée");
+                        }}
+                      >
+                        OUI
+                      </Button>
+
+                      <Button
+                        variant="secondary"
+                        onClick={() => {
+                          close();
+                        }}
+                      >
+                        ANNULER
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </Popup>
+              <Button variant="warning">
+                <Link
+                  className="nav-link"
+                  to={"/article/update/" + id}
+                  state={articleData}
+                >
+                  Modifier l'article
+                </Link>
+              </Button>
+            </>
+          )}
+        </div>
+      </section>
+
       {user && <ReviewForm productId={id} />}
     </>
   );

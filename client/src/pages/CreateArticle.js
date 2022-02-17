@@ -43,11 +43,12 @@ const CreateArticle = () => {
     <>
       <h1>Créer votre article</h1>
       <Form
+        class="login-register-form"
         onSubmit={() => {
           handleSubmit();
         }}
       >
-        <InputGroup className="mb-3">
+        <InputGroup className="mb-3 mt-3">
           <InputGroup.Text id="basic-addon1">
             Titre de l'article
           </InputGroup.Text>
@@ -63,11 +64,12 @@ const CreateArticle = () => {
           />
         </InputGroup>
 
-        <InputGroup>
+        <InputGroup className="mb-3 mt-3">
           <FormControl
             aria-label="Contenu de l'article"
             type="file"
             name="picture"
+            rows={6}
             onChange={(e) =>
               setArticleData({
                 ...articleData,
@@ -77,13 +79,14 @@ const CreateArticle = () => {
           />
         </InputGroup>
 
-        <InputGroup>
+        <InputGroup className="mb-3 mt-3 ">
           <InputGroup.Text>Contenu de l'article</InputGroup.Text>
           <FormControl
             as="textarea"
             aria-label="Contenu de l'article"
             type="text"
             name="content"
+            rows={6}
             onChange={(e) =>
               setArticleData({ ...articleData, content: e.target.value })
             }

@@ -11,7 +11,7 @@ const Field = ({ type, name, id, placeholder, value, onChange, label }) => {
       <label htmlFor={id}>{label}</label>
       <input
         type={type}
-        className="form-control"
+        className="form-control form-control-lg"
         placeholder={placeholder}
         name={name}
         id={id}

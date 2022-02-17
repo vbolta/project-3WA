@@ -1,44 +1,43 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+/**----------Pages------------------*/
+import HomePage from "./pages/Homepage";
+import ArticlesList from "./pages/ArticlesList";
+import Article from "./pages/Article";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import HomePage from "./pages/Homepage";
 import CreateArticle from "./pages/CreateArticle";
 import UpdateArticle from "./pages/UpdateArticle";
+/**----------Libraries------------------*/
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Navbar } from "./components/Navbar";
-import Article from "./pages/Article";
-import jwt_decode from "jwt-decode";
 import { getCurrentUser } from "./services/Authentification";
-import toast, { Toaster } from "react-hot-toast";
-
+import { Toaster } from "react-hot-toast";
 import Footer from "./components/Footer";
-import ArticlesList from "./components/ArticlesList";
 
 function App() {
+  const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart" || "[]"));
   const [user, setUser] = useState(null);
-
   const [isAuthenticated, setAuthenticated] = useState(false);
-
-  const getCurrentUser = () => {
-    try {
-      const token = localStorage.getItem("accessToken");
-      return { ...jwt_decode(token), token };
-    } catch (error) {
-      return null;
-    }
-  };
+  const [cart, setCart] = useState(cartFromLocalStorage);
 
   useEffect(() => {
     const currentUser = getCurrentUser();
     setUser(currentUser);
     setAuthenticated(false);
-  }, [isAuthenticated]);
-
-  const [cart, setCart] = useState([]);
+    if (cart === null) {
+      setCart([]);
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [isAuthenticated, cart]);
 
   const logout = () => {
     localStorage.removeItem("accessToken");
     setUser(false);
+  };
+
+  const deleteCart = () => {
+    localStorage.removeItem("cart");
+    setCart([]);
   };
 
   return (
@@ -50,10 +49,10 @@ function App() {
           logout: logout,
           isAuthenticated: isAuthenticated,
           cart: cart,
+          deleteCart: deleteCart,
         }}
       />
-      {/* {user && <Navbar />} */}
-      <div className="container-fluid fill">
+      <div className="container-md">
         <Routes>
           <Route
             path="/account/login"
@@ -61,7 +60,6 @@ function App() {
           />
           <Route path="/account/register" element={<RegisterPage />} />
           <Route path="/articles" element={<ArticlesList />} />
-
           <Route path="/new/article" element={<CreateArticle />} />
           <Route
             path="/article/:id"
@@ -69,7 +67,7 @@ function App() {
           />
           <Route path="/article/update/:id" element={<UpdateArticle />} />
           <Route path="*" element={<Navigate to="/" />} />
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage user={user} />} />
         </Routes>
       </div>
       <Footer />

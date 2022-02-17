@@ -3,26 +3,46 @@ $body-bg: #fbf8f1;
 // Bootstrap and its default variables
 @import "../node_modules/bootstrap/scss/bootstrap";
 
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 .App {
   text-align: center;
   width: 100%;
   max-width: 800px;
-  height: 100vh;
+  //height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
 .Article-cards {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  // flex-direction: row;
   justify-content: space-between;
   flex-wrap: wrap;
 }
 
-.article-display {
-  justify-content: space-between;
+.Article-cards .article-card {
+  width: 25rem;
+}
+
+.article-display h1 {
+  text-align: center;
+}
+.article-img {
+  width: 500px;
+}
+.article-flex {
   display: flex;
+  align-items: stretch;
+}
+
+.article-left {
+  flex: 1;
+}
+
+.article-right {
+  margin-top: 4px;
+  flex: 1;
+  text-align: center;
 }
 
 .article-user-btn {
@@ -76,20 +96,20 @@ $body-bg: #fbf8f1;
   border-radius: 18px;
   border: 1px solid var(--secondary);
 }
-
-/***** CSS Variables *****/
+/*------------- CSS Variables ---------------*/
 
 :root {
-  --main-color: #2f86a6;
+  --main-color: #087096;
   --secondary: rgb(231, 165, 43);
   --logout-button-color: #e46432;
 }
 
-/***** Basic Attributes *****/
+/*---------- Basic Style ---------*/
 
 body {
   color: var(--secondary);
   padding: 0;
+  font-family: "Roboto";
 }
 
 #root {
@@ -127,34 +147,28 @@ small {
 }
 
 form {
-  border: 2px solid var(--secondary);
-  border-radius: 1rem;
-  margin: 1rem auto;
-  padding: 1rem;
+  margin: 3rem auto;
+  padding: 1.2rem;
+  border-radius: 5px;
+  background-color: #2f86a6cb;
+}
+
+.review-input {
+  height: 50px;
 }
 
 fieldset {
-  margin-bottom: 1rem;
+  margin-bottom: 5rem;
 }
 
-/***** Classes *****/
+/*----------- Classes ------------*/
 
-/* Flexbox */
-.flex {
-  display: flex;
+.clear {
+  clear: both;
+  height: 60px;
 }
 
-/* Center the content */
-.center {
-  text-align: center;
-}
-
-/* Align the content to the right */
-.align-right {
-  text-align: right;
-}
-
-/* Navigation bar */
+/*----------Navigation bar --------------*/
 .navbar {
   background-color: var(--main-color);
   color: white;
@@ -183,70 +197,70 @@ fieldset {
   color: var(--main-color);
 }
 
-/* Name of the website */
+/*----------- Website ------------*/
 
 .navbar-brand .brand-name {
   padding: 0.25rem;
   display: None;
 }
 
-/* Pagination */
-li.page-item .page-link {
-  color: var(--main-color);
+.homepage h1 {
+  margin-top: 1rem;
+  font-style: italic;
 }
 
-li.page-item.active .page-link {
-  background-color: var(--main-color);
-  border-color: var(--main-color);
+.homepage span {
+  text-decoration: underline var(--main-color);
 }
 
-.logout-button {
-  background-color: var(--logout-button-color);
+.reviews {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
 }
 
-.logo {
-  width: 35px;
-  height: auto;
-  text-align: center;
+.reviews ul {
+  list-style: none;
+}
+.reviews .content {
+  font-weight: bold;
 }
 
-/*--------Footer---------*/
+.reviews button {
+  margin: 0 2rem;
+}
 
-// .footer {
-//   margin-top: 1rem;
-//   padding: 1rem;
-//   bottom: 0;
-//   left: 0;
-//   width: 100%;
-//   height: auto;
-//   background-color: var(--main-color);
-// }
-// .footer .col {
-//   width: 190px;
-//   height: auto;
-//   float: right;
-//   box-sizing: border-box;
-//   padding: 0px 20px 20px 20px;
-// }
-// .footer .col h1 {
-//   margin: 0;
-//   padding: 0;
-//   font-family: inherit;
-//   font-size: 12px;
-//   line-height: 17px;
-//   padding: 20px 0px 5px 0px;
-//   font-weight: normal;
-//   text-transform: uppercase;
-// }
-// .footer .col ul {
-//   list-style-type: none;
-//   margin: 0;
-//   padding: 0;
-// }
+.reviews .author {
+  font-style: italic;
+}
+
+#header-search {
+  width: 100%;
+  border-radius: 5px;
+  height: 3.5rem;
+  border: 1px solid black;
+}
+
+.articles-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.article-card {
+  width: 20rem;
+  margin: 1rem 2rem;
+}
+
+/*-------- Footer ---------*/
 
 .footer {
+  bottom: 0;
+  left: 0;
+  right: 0;
   background: var(--main-color);
-  position: relative;
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -263,22 +277,11 @@ li.page-item.active .page-link {
 /*----------------- Tablet ----------------*/
 
 @media screen and (min-width: 768px) {
-  form {
-    max-width: 50%;
-  }
-
   .logo {
     width: 50px;
   }
 
   .navbar-brand .brand-name {
     display: inline-block;
-  }
-}
-
-/*--------------- Desktop ---------------*/
-@media screen and (min-width: 1025px) {
-  .logo {
-    width: 100px;
   }
 }

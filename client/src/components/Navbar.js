@@ -4,12 +4,9 @@ import logo from "../assets/bird.png";
 import toast from "react-hot-toast";
 import StripeCheckout from "react-stripe-checkout";
 import Axios from "axios";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 
 export const Navbar = ({ props }) => {
-  // console.log(isAuthenticated);
-  // const test = handleLogout();
-
-  console.log(props.cart);
   const [isAuthenticated, setAuthenticated] = useState(false);
   const [products, setProducts] = useState([]);
 
@@ -43,23 +40,17 @@ export const Navbar = ({ props }) => {
           TropiPhoto
           <img className="logo" src={logo} alt="Logo de l'application" />
         </Link>
-        {/* <a href="https://www.flaticon.com/free-icons/macaw" title="macaw icons">
-          Macaw icons created by Smashicons - Flaticon
-        </a> */}
         <button
           className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarColor03"
-          aria-controls="navbarColor03"
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <button onClick={makePayment}>TEST</button>
 
-        <div className="collapse navbar-collapse" id="navbarColor03">
+        <div className="collapse navbar-collapse">
           <ul className="navbar-nav me-auto">
             {isAuthenticated && (
               <>
@@ -93,17 +84,33 @@ export const Navbar = ({ props }) => {
             )}
 
             <>
-              <header>Mon panier ({cart.length})</header>
               {cart && (
-                <StripeCheckout
-                  stripeKey={
-                    "pk_test_51KQGxlF8ilF9NswhOpwMDzSMvPRvzpgLaa8JE06tHjFgafXUvu2TG5yoDPYrB3S1FfG5BgCfHaPMusav7dC1kDeG00TqkvBd2O"
-                  }
-                  token={makePayment}
-                  name="Test"
-                >
-                  <button>Test</button>
-                </StripeCheckout>
+                <>
+                  <StripeCheckout
+                    stripeKey={
+                      "pk_test_51KQGxlF8ilF9NswhOpwMDzSMvPRvzpgLaa8JE06tHjFgafXUvu2TG5yoDPYrB3S1FfG5BgCfHaPMusav7dC1kDeG00TqkvBd2O"
+                    }
+                    token={makePayment}
+                    name="Confirmer votre commande"
+                  >
+                    <li className="nav-item">
+                      <button className="btn btn-success">
+                        <AiOutlineShoppingCart /> ({cart && cart.length})
+                        PAIEMENT
+                      </button>
+                    </li>
+                  </StripeCheckout>
+                  {cart.length > 0 && (
+                    <li className="nav-item">
+                      <button
+                        className="btn btn-warning"
+                        onClick={props.deleteCart}
+                      >
+                        VIDER LE PANIER
+                      </button>
+                    </li>
+                  )}
+                </>
               )}
             </>
 
@@ -111,7 +118,7 @@ export const Navbar = ({ props }) => {
               <>
                 <li className="nav-item">
                   <button
-                    className="logout-button"
+                    className="btn btn-danger"
                     onClick={() => {
                       handleLogout();
                       toast.success("Déconnexion réussie");

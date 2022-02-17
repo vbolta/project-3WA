@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import ArticlesList from "../components/ArticlesList";
 
-const HomePage = () => {
+const HomePage = ({ user }) => {
   const [articles, setArticles] = useState([]);
   useEffect(() => {
     Axios.get("http://localhost:3001/articles/random").then((response) => {
@@ -15,11 +14,22 @@ const HomePage = () => {
 
   return (
     <>
+      <div className="homepage">
+        {user ? (
+          <h1>
+            Bienvenue sur TropiPhoto{" "}
+            <span className="username">{user.name}</span>
+          </h1>
+        ) : (
+          <h1>Bienvenue sur TropiPhoto</h1>
+        )}
+      </div>
+
       <div className="Article-cards">
         {articles.length > 0 &&
           articles.map((article) => (
             <div key={article._id}>
-              <Card style={{ width: "18rem" }}>
+              <Card className="article-card">
                 <Card.Img variant="top" src={article.picture} />
                 <Card.Body>
                   <Card.Title>{article.title}</Card.Title>

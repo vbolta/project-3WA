@@ -6,6 +6,8 @@ import { getCurrentUser } from "../services/Authentification";
 import Button from "react-bootstrap/esm/Button";
 import toast from "react-hot-toast";
 import UpdateReview from "../pages/UpdateReview";
+import InputGroup from "react-bootstrap/InputGroup";
+import FormControl from "react-bootstrap/FormControl";
 import Popup from "reactjs-popup";
 
 const ReviewForm = ({ productId }) => {
@@ -55,38 +57,60 @@ const ReviewForm = ({ productId }) => {
   return (
     <>
       <Form onSubmit={handleSubmit}>
-        <Field
+        <InputGroup>
+          <InputGroup.Text>Contenu de l'article</InputGroup.Text>
+          <FormControl
+            as="textarea"
+            aria-label="Contenu de l'article"
+            type="text"
+            name="content"
+            onChange={(e) => setReview({ ...review, content: e.target.value })}
+          />
+        </InputGroup>
+        <button className="btn btn-succes">Créer un nouvel article</button>
+
+        {/* <Field
+          class="review-input"
           type="text"
           name="content"
-          id="text"
+          id="review-content"
           placeholder="Commentaire d'un utilisateur"
           label="Ajouter un commentaire"
           value={review.content}
           onChange={handleChange}
-        ></Field>
+        ></Field> */}
       </Form>
-      <ul>
-        {reviewData.length > 0 &&
-          reviewData.map((review) => {
-            return (
-              <>
-                <li>{review.content}</li>
-                <li>{review.author.name}</li>
-                <li>{review.createdAt}</li>
-
-                <Button
-                  variant="secondary"
-                  onClick={() => handleDelete(review._id)}
-                >
-                  Supprimer le commentaire
-                </Button>
-                <UpdateReview
-                  props={{ review: review, setIsUpdated: setIsUpdated }}
-                />
-              </>
-            );
-          })}
-      </ul>
+      {reviewData.length > 0 &&
+        reviewData.map((review) => {
+          return (
+            <>
+              <div className="reviews">
+                <ul key={review._id}>
+                  <li className="content">{review.content}</li>
+                  <li className="author">
+                    Ecrit par {review.author.name} le {review.createdAt}
+                  </li>
+                </ul>
+                {review.author.id === user.id && (
+                  <>
+                    <div>
+                      <Button
+                        variant="secondary"
+                        onClick={() => handleDelete(review._id)}
+                      >
+                        Supprimer le commentaire
+                      </Button>
+                      <UpdateReview
+                        props={{ review: review, setIsUpdated: setIsUpdated }}
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+            </>
+          );
+        })}
+      <div className="clear"></div>
     </>
   );
 };
