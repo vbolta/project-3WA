@@ -52,7 +52,7 @@ function App() {
           deleteCart: deleteCart,
         }}
       />
-      <div className="container-md">
+      <div className="container-md mt-3">
         <Routes>
           <Route
             path="/account/login"

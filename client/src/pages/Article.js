@@ -3,9 +3,7 @@ import Axios from "axios";
 import { Link, useMatch, useNavigate } from "react-router-dom";
 import Image from "react-bootstrap/esm/Image";
 import Button from "react-bootstrap/esm/Button";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import ReviewForm from "../components/ReviewForm";
+import ReviewForm from "./ReviewForm";
 import Popup from "reactjs-popup";
 import toast from "react-hot-toast";
 
@@ -15,9 +13,11 @@ const Article = ({ cart, setCart, user }) => {
   const id = useMatch("article/:id").params.id;
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/articles/" + id).then((article) => {
-      setArticleData(article.data);
-    });
+    Axios.get(process.env.REACT_APP_SERVER_URL + "/articles/" + id).then(
+      (article) => {
+        setArticleData(article.data);
+      }
+    );
   }, [id]);
 
   const addToCart = (name, price) => {
@@ -25,7 +25,7 @@ const Article = ({ cart, setCart, user }) => {
   };
 
   const handleDelete = () => {
-    Axios.post(`http://localhost:3001/articles/${id}/delete`, {
+    Axios.post(`${process.env.REACT_APP_SERVER_URL}/articles/${id}/delete`, {
       id: id,
     }).then((response) => {
       if (response.data.error) {
@@ -41,7 +41,7 @@ const Article = ({ cart, setCart, user }) => {
       <section className="article-flex">
         <div className="article-left">
           <h1>{articleData.title}</h1>
-          <h2>Contenu de l'article</h2>
+          <h2>Desription</h2>
           <p>{articleData.content}</p>
           <h2>Auteur</h2>
           {articleData.author && <p>{articleData.author.name}</p>}
@@ -76,7 +76,7 @@ const Article = ({ cart, setCart, user }) => {
                 nested
               >
                 {(close) => (
-                  <div className="custom-modal">
+                  <div className="custom-modal delete-article">
                     <button className="close" onClick={close}>
                       &times;
                     </button>
@@ -108,7 +108,7 @@ const Article = ({ cart, setCart, user }) => {
               </Popup>
               <Button variant="warning">
                 <Link
-                  className="nav-link"
+                  className="article-update-btn"
                   to={"/article/update/" + id}
                   state={articleData}
                 >

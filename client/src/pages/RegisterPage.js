@@ -14,7 +14,7 @@ const RegisterPage = () => {
   };
 
   const handleSubmit = () => {
-    Axios.post("http://localhost:3001/users/register", {
+    Axios.post(process.env.REACT_APP_SERVER_URL + "/users/register", {
       name: data.name,
       mail: data.email,
       password: data.password,

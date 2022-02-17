@@ -26,7 +26,10 @@ const UpdateArticle = () => {
     data.append("file", newArticleData.picture);
     data.append("content", newArticleData.content);
 
-    Axios.post("http://localhost:3001/articles/" + id + "/update", data)
+    Axios.post(
+      process.env.REACT_APP_SERVER_URL + "/articles/" + id + "/update",
+      data
+    )
       .then((response) => {
         console.log(response);
         if (response.data.error) {

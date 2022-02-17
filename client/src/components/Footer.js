@@ -5,7 +5,9 @@ const Footer = () => {
     <>
       <footer className="footer">
         <img className="footer-img" src={logo} alt="Logo de la 3WA" />
-        <div className="footer-copyright"></div>
+        <div className="footer-copyright">
+          Projet réalisé pour la 3WA - Victor BOLTA IDW03
+        </div>
       </footer>
       <div className="clear"></div>
     </>

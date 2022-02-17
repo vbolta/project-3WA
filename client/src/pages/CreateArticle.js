@@ -1,10 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Form from "../components/Form";
 import { useState } from "react";
 import Axios from "axios";
-import Button from "react-bootstrap/esm/Button";
 import toast from "react-hot-toast";
 
 const CreateArticle = () => {
@@ -26,12 +25,16 @@ const CreateArticle = () => {
     data.append("content", articleData.content);
     data.append("createdAt", date.toISOString());
 
-    Axios.post("http://localhost:3001/articles/createArticle", data, {
-      headers: { accessToken: localStorage.getItem("accessToken") },
-    })
+    Axios.post(
+      process.env.REACT_APP_SERVER_URL + "/articles/createArticle",
+      data,
+      {
+        headers: { accessToken: localStorage.getItem("accessToken") },
+      }
+    )
       .then((response) => {
         navigate("/articles");
-        toast.success("Article créée");
+        toast.success("Article créé");
       })
       .catch((err) => {
         console.log(err);

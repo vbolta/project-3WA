@@ -1,11 +1,10 @@
-import { FaCheck, FaUnlock } from "react-icons/fa";
+import { FaUnlock } from "react-icons/fa";
 import Field from "../components/Field";
 import Form from "../components/Form";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Axios from "axios";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
-import { getCurrentUser } from "../services/Authentification";
 
 const LoginPage = ({ setAuthenticated }) => {
   console.log(setAuthenticated);
@@ -19,7 +18,7 @@ const LoginPage = ({ setAuthenticated }) => {
   Axios.defaults.withCredentials = true;
 
   const handleSubmit = async () => {
-    await Axios.post("http://localhost:3001/users/login", {
+    await Axios.post(process.env.REACT_APP_SERVER_URL + "/users/login", {
       mail: data.email,
       password: data.password,
     }).then((response) => {

@@ -1,7 +1,6 @@
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Axios from "axios";
-import Form from "../components/Form";
 import { useState } from "react";
 import Button from "react-bootstrap/esm/Button";
 import Popup from "reactjs-popup";
@@ -16,7 +15,10 @@ const UpdateReview = ({ props }) => {
 
   const handleSubmit = () => {
     Axios.post(
-      "http://localhost:3001/reviews/" + props.review._id + "/update",
+      process.env.REACT_APP_SERVER_URL +
+        "/reviews/" +
+        props.review._id +
+        "/update",
       {
         id: props.review._id,
         content: newReviewContent.content,
@@ -42,7 +44,7 @@ const UpdateReview = ({ props }) => {
         nested
       >
         {(close) => (
-          <div className="custom-modal">
+          <div className="custom-modal review-modal">
             <button className="close" onClick={close}>
               &times;
             </button>

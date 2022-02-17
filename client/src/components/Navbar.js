@@ -26,7 +26,7 @@ export const Navbar = ({ props }) => {
 
   const makePayment = (token) => {
     const body = { products, token };
-    Axios.post("http://localhost:3001/orders/payment", body)
+    Axios.post(process.env.REACT_APP_SERVER_URL + "/orders/payment", body)
       .then((response) => {
         console.log(response);
       })
@@ -87,9 +87,7 @@ export const Navbar = ({ props }) => {
               {cart && (
                 <>
                   <StripeCheckout
-                    stripeKey={
-                      "pk_test_51KQGxlF8ilF9NswhOpwMDzSMvPRvzpgLaa8JE06tHjFgafXUvu2TG5yoDPYrB3S1FfG5BgCfHaPMusav7dC1kDeG00TqkvBd2O"
-                    }
+                    stripeKey={process.env.REACT_APP_STRIPE_KEY}
                     token={makePayment}
                     name="Confirmer votre commande"
                   >

@@ -7,9 +7,11 @@ import Button from "react-bootstrap/Button";
 const HomePage = ({ user }) => {
   const [articles, setArticles] = useState([]);
   useEffect(() => {
-    Axios.get("http://localhost:3001/articles/random").then((response) => {
-      setArticles(response.data);
-    });
+    Axios.get(process.env.REACT_APP_SERVER_URL + "/articles/random").then(
+      (response) => {
+        setArticles(response.data);
+      }
+    );
   }, []);
 
   return (

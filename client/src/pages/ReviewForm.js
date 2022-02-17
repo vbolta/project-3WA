@@ -6,9 +6,6 @@ import { getCurrentUser } from "../services/Authentification";
 import Button from "react-bootstrap/esm/Button";
 import toast from "react-hot-toast";
 import UpdateReview from "../pages/UpdateReview";
-import InputGroup from "react-bootstrap/InputGroup";
-import FormControl from "react-bootstrap/FormControl";
-import Popup from "reactjs-popup";
 
 const ReviewForm = ({ productId }) => {
   const [reviewData, setReviewData] = useState([]);
@@ -23,7 +20,7 @@ const ReviewForm = ({ productId }) => {
   };
 
   const handleSubmit = () => {
-    Axios.post("http://localhost:3001/reviews/create", {
+    Axios.post(process.env.REACT_APP_SERVER_URL + "/reviews/create", {
       author: user,
       content: review.content,
       product_id: productId,
@@ -32,7 +29,7 @@ const ReviewForm = ({ productId }) => {
   };
 
   const handleDelete = (review_id) => {
-    Axios.post(`http://localhost:3001/reviews/delete`, {
+    Axios.post(process.env.REACT_APP_SERVER_URL + "/reviews/delete", {
       id: review_id,
     }).then((response) => {
       if (response.data.error) {
@@ -44,11 +41,11 @@ const ReviewForm = ({ productId }) => {
   };
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/reviews/find/" + productId + "/").then(
-      (response) => {
-        setReviewData(response.data);
-      }
-    );
+    Axios.get(
+      process.env.REACT_APP_SERVER_URL + "/reviews/find/" + productId + "/"
+    ).then((response) => {
+      setReviewData(response.data);
+    });
     setIsSubmitted(false);
     setIsDeleted(false);
     setIsUpdated(false);
@@ -57,19 +54,7 @@ const ReviewForm = ({ productId }) => {
   return (
     <>
       <Form onSubmit={handleSubmit}>
-        <InputGroup>
-          <InputGroup.Text>Contenu de l'article</InputGroup.Text>
-          <FormControl
-            as="textarea"
-            aria-label="Contenu de l'article"
-            type="text"
-            name="content"
-            onChange={(e) => setReview({ ...review, content: e.target.value })}
-          />
-        </InputGroup>
-        <button className="btn btn-succes">Créer un nouvel article</button>
-
-        {/* <Field
+        <Field
           class="review-input"
           type="text"
           name="content"
@@ -78,7 +63,7 @@ const ReviewForm = ({ productId }) => {
           label="Ajouter un commentaire"
           value={review.content}
           onChange={handleChange}
-        ></Field> */}
+        ></Field>
       </Form>
       {reviewData.length > 0 &&
         reviewData.map((review) => {
