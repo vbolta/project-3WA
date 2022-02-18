@@ -59,13 +59,15 @@ function App() {
             element={<LoginPage setAuthenticated={setAuthenticated} />}
           />
           <Route path="/account/register" element={<RegisterPage />} />
-          <Route path="/articles" element={<ArticlesList />} />
-          <Route path="/new/article" element={<CreateArticle />} />
+          {user && <Route path="/articles" element={<ArticlesList />} />}
+          {user && <Route path="/new/article" element={<CreateArticle />} />}
           <Route
             path="/article/:id"
             element={<Article cart={cart} setCart={setCart} user={user} />}
           />
-          <Route path="/article/update/:id" element={<UpdateArticle />} />
+          {user && (
+            <Route path="/article/update/:id" element={<UpdateArticle />} />
+          )}
           <Route path="*" element={<Navigate to="/" />} />
           <Route path="/" element={<HomePage user={user} />} />
         </Routes>

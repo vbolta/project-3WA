@@ -8,7 +8,7 @@ const articleSchema = Schema({
     name: String,
     mail: String,
   },
-  dateCreated: { type: Date, defaut: Date.now() },
+  dateCreated: { type: Date, default: Date.now() },
   dateModified: Date,
   content: { type: String, required: true },
   picture: { type: String },
